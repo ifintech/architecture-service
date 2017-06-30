@@ -9,7 +9,7 @@
   * 配置中心
 * API Gateway
 * [服务间通信IPC](ipc.md)
-  * [同步请求](ipc/tong-bu-qing-qiu-wang-guan.md)
+  * [同步请求](ipc/rest.md)
   * 异步消息
 * 服务治理
   * 日志
