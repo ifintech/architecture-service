@@ -12,7 +12,7 @@
 
 #### 技术选型
 
-(rocketmq)[https://help.aliyun.com/document_detail/29532.html?spm=5176.7946988.229208.1.YJ6WR3]
+[RocketMQ[(https://help.aliyun.com/document_detail/29532.html?spm=5176.7946988.229208.1.YJ6WR3)
 
 
 ##
