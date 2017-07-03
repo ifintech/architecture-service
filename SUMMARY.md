@@ -7,7 +7,7 @@
   * 服务发布
   * 代码仓库
   * 配置中心
-* API Gateway
+* [API Gateway](api-gateway.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
   * 异步消息
@@ -23,5 +23,5 @@
   * [数据聚合](stat/数据聚合.md)
   * [数据可视化](stat/数据可视化.md)
   * [数据报表](stat/数据报表.md)
-  * [实践案例]()
+  * 实践案例
 
