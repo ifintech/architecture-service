@@ -10,7 +10,7 @@
 * [API Gateway](api-gateway.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
-  * 异步消息
+  * [异步消息](ipc/mq.md)
 * 服务治理
   * 日志
   * 监控报警
