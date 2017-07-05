@@ -42,3 +42,5 @@ API网关也有一些劣势，它本身是一个新的高可用的组件，需�
 
 
 ## 实现一个API网关
+
+#### 选型 [kong](https://getkong.org/docs/)
