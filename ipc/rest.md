@@ -28,11 +28,6 @@
 
 [规范地址](https://ifentech.gitbooks.io/rdbuild/content/rule/api.html)
 
-#### 返回值标准
-
-返回值格式为json
-标准格式为
-
 #### header头约定
 
 > x-source 来源应用
