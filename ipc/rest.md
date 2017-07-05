@@ -26,7 +26,7 @@
 
 ## API设计规范
 
-[规范地址](https://ifentech.gitbooks.io/rdbuild/content/rule/api.html)
+> [规范地址](https://ifentech.gitbooks.io/rdbuild/content/rule/api.html)
 
 #### header头约定
 
@@ -37,3 +37,7 @@
 > x-rid 请求唯一标识  
 
 ## 实施
+
+#### 安装部署
+
+#### 
