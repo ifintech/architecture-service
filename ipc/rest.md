@@ -30,8 +30,8 @@
 
 #### header头约定
 
-> x-source 来源应用
-> x-time 时间戳
-> x-m 加密串
-> x-field 参与校验的字段
-> x-rid 请求唯一标识
+> x-source 来源应用  
+> x-time 时间戳  
+> x-m 加密串  
+> x-field 参与校验的字段  
+> x-rid 请求唯一标识  
