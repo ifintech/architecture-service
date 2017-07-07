@@ -38,10 +38,37 @@
 
 ## 实施
 
-#### 服务发现
-![](images/httpgateway.png)
+#### 与服务注册发现结合
+![](/images/httpgateway.png)
 
 #### consul-template 安装配置
 
+```shell
+wget https://releases.hashicorp.com/consul-template/0.18.2/consul-template_0.18.2_linux_amd64.zip
+unzip consul-template_0.18.2_linux_amd64.zip
+cp consul-template /bin/
+```
 
-#### 
+vim /etc/nginx/consul-template/upstream.tpl
+
+```shell
+{{range services}} {{$name := .Name}} {{$service := service .Name}}
+upstream {{$name}} {
+  {{range $service}}server {{.Address}}:{{.Port}} weight=1;
+  {{end}}
+} {{end}}
+```
+
+更新upstream
+
+```shell
+consul-template -consul-addr 10.0.4.13:8500 -template "/etc/nginx/consul-template/upstream.tpl:/etc/nginx/upstream.conf:/usr/local/openresty/nginx/sbin/nginx -s reload" -once
+```
+自启动 vim rc.local
+
+```shell
+consul-template -consul-addr 10.0.4.13:8500 -template "/etc/nginx/consul-template/upstream.tpl:/etc/nginx/upstream.conf" -once
+/usr/local/openresty/nginx/sbin/nginx
+consul-template -consul-addr 10.0.4.13:8500 -template "/etc/nginx/consul-template/upstream.tpl:/etc/nginx/upstream.conf:/usr/local/openresty/nginx/sbin/nginx -s reload" >> /var/log/consul-template 2>&1 &
+```
+
