@@ -26,3 +26,8 @@
 服务发现的另一种模式就是服务端发现模式。下图展示了该模式的结构：
 
 ![](http://upload-images.jianshu.io/upload_images/3912920-76dce8ab07216514.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+客户端通过一个负载均衡器向服务发送请求，负载均衡器查询服务注册表并把请求路由到一台可用的服务实例上。和客户端发现一样，服务实例通过服务注册表进行服务的注册和注销。
+
+类似NGINX PLUG和NGINX这些HTTP服务器和负载均衡器可以作为服务端发现负载均衡来使用。使用ConsulTemplate动态重配置NGINX反向代理，ConsulTemplate是一种根据存储在Consul服务注册表的配置数据阶段性重新生成任意配置文件的工具，每当文件发生变化时，它将运行任意的Shell命令。参考[httpgateway](ipc/rest.md)的实现
