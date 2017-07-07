@@ -38,4 +38,4 @@
 
 ## 实施
 
-#### consul-template
+#### consul-template 安装配置
