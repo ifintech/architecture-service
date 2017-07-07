@@ -36,6 +36,7 @@ Redirecting to /bin/systemctl stop  docker.service
 
 #### 构建集群
 
+
 #### docker镜像
 
 #### 服务初始化
