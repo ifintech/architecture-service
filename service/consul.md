@@ -44,4 +44,16 @@
 
 #### 选型 consul
 
-#### 安装配置
+安装配置consul
+```shell
+sudo -s
+wget https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip
+unzip consul_0.7.5_linux_amd64.zip
+mkdir /etc/consul.d
+mkdir -p /data1/consul
+mv consul /bin
+
+nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul1 -bind=10.0.4.14 -client=10.0.4.14 -domain=jrmf360 -ui >> /data1/consul/run.log 2>&1 &
+nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul2 -bind=10.0.4.15 -client=10.0.4.15 -join=10.0.4.14 -domain=jrmf360 -ui >> /data1/consul/run.log 2>&1 &
+nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul3 -bind=10.0.4.16 -client=10.0.4.16 -join=10.0.4.14 -domain=jrmf360 -ui >> /data1/consul/run.log 2>&1 &
+```
