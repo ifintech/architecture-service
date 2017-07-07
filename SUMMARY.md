@@ -2,11 +2,11 @@
 
 * [简介](README.md)
 * 服务管理
-  * [服务容器]()
+  * 服务容器
   * [服务注册/发现](service/consul.md)
-  * [服务发布]()
-  * [代码仓库]()
-  * [配置中心]()
+  * [服务发布](service/deploy.md)
+  * 代码仓库
+  * 配置中心
 * [API Gateway](api-gateway.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
@@ -23,5 +23,5 @@
   * [数据聚合](stat/数据聚合.md)
   * [数据可视化](stat/数据可视化.md)
   * [数据报表](stat/数据报表.md)
-  * [实践案例]()
+  * 实践案例
 
