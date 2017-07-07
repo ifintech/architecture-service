@@ -42,6 +42,20 @@
 
 **服务注册中心是服务发现的关键部分**，它是一个包含服务实例网络地址的的数据库。一个服务注册表需要高可用和实时更新，客户端可以缓存从服务注册表获取的网络地址。然而，这样的话缓存的信息最终会过期，客户端不能再根据该信息发现服务实例。因此，服务注册表对集群中的服务实例使用复制协议来维护一致性。
 
+#### 服务注册选项
+
+正如前面提到的那样，服务实例必须使用服务注册表来进行服务的注册和注销，我们有几种方式来处理服务的注册和注销。
+- 服务实例自己注册自己也就是self-registration模式。
+- 系统的其他组件管理服务实例的注册，也就是 third-party registration 模式。
+
+
+Self-Registration模式（在使用）
+
+当使用self-registration 模式时，服务实例自己负责通过服务注册表对自己进行注册和注销，另外如果有必要的话，服务实例可以通过发送心跳请求防止注册过期，下图展示了该模式的结构：
+
+![](http://upload-images.jianshu.io/upload_images/3912920-5bd07f6c772a719f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
 #### 选型 consul
 
 安装配置consul
@@ -128,4 +142,3 @@ nohup consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -j
 ```
 
 
-### 服务注册选项
