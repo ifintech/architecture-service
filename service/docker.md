@@ -31,7 +31,10 @@ Redirecting to /bin/systemctl stop  docker.service
 ```
 
 ## swarm  
-构建运算集群
+> 现在只把web服务和job服务这种计算**无状态服务**迁移到swarm集群上
+
+#### 构建集群
+
 #### docker镜像
 
 #### 服务初始化
