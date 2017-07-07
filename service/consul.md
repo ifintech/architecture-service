@@ -58,9 +58,8 @@ Self-Registration模式（在使用）
 
 #### 选型 consul
 
-安装配置consul
+##### 安装配置consul集群
 
-consul集群
 ```shell
 sudo -s
 wget https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip
@@ -75,7 +74,7 @@ nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-
 ```
 
 
-client端安装
+##### client端安装
 
 ```shell
 sudo -s
