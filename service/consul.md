@@ -45,6 +45,8 @@
 #### 选型 consul
 
 安装配置consul
+
+consul集群
 ```shell
 sudo -s
 wget https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip
@@ -53,7 +55,77 @@ mkdir /etc/consul.d
 mkdir -p /data1/consul
 mv consul /bin
 
-nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul1 -bind=10.0.4.14 -client=10.0.4.14 -domain=jrmf360 -ui >> /data1/consul/run.log 2>&1 &
-nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul2 -bind=10.0.4.15 -client=10.0.4.15 -join=10.0.4.14 -domain=jrmf360 -ui >> /data1/consul/run.log 2>&1 &
-nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul3 -bind=10.0.4.16 -client=10.0.4.16 -join=10.0.4.14 -domain=jrmf360 -ui >> /data1/consul/run.log 2>&1 &
+nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul1 -bind=10.0.4.14 -client=10.0.4.14 -domain=domain -ui >> /data1/consul/run.log 2>&1 &
+nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul2 -bind=10.0.4.15 -client=10.0.4.15 -join=10.0.4.14 -domain=domain -ui >> /data1/consul/run.log 2>&1 &
+nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul3 -bind=10.0.4.16 -client=10.0.4.16 -join=10.0.4.14 -domain=domain -ui >> /data1/consul/run.log 2>&1 &
 ```
+
+
+client端安装
+
+```shell
+sudo -s
+wget https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip
+unzip consul_0.7.5_linux_amd64.zip
+mkdir /etc/consul.d
+mkdir -p /data1/consul
+mv consul /bin
+
+nohup consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -join=10.0.4.13 -config-file=/etc/consul.d/config.data >> /data1/consul/run.log 2>&1 &
+```
+
+consul配置文件 /etc/consul.d/config.data
+
+consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -join=10.0.4.14 -config-file=/etc/consul.d/config.data >> /data1/consul/run.log 2>&1 &
+
+```shell
+{
+  "service": {
+    "id": "app-contract2",
+    "name": "contract",
+    "address": "10.0.0.4",
+    "port": 9000,
+    "enableTagOverride": false,
+    "checks": [
+      {
+        "id": "fastcgi",
+        "name": "php fastcgi tcp 9000",
+        "tcp": "localhost:9000",
+        "interval": "10s",
+        "timeout": "1s",
+        "deregister_critical_service_after": "5m"
+      }
+    ]
+  }
+}
+```
+
+curl --request PUT --data @config.data https://10.0.0.4:8500/v1/agent/service/register
+
+```shell
+//通过curl api注册
+{
+  "ID": "app-contract2",
+  "Name": "contract",
+  "Address": "10.0.0.4",
+  "Port": 9000,
+  "EnableTagOverride": false,
+  "Check": {
+    "DeregisterCriticalServiceAfter": "1m",
+    "TCP": "localhost:9000",
+    "Interval": "3s",
+    "TTL": "15s"
+  }
+}
+```
+
+
+
+添加服务自启动 vim /etc/rc.local
+
+```shell
+nohup consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -join=10.0.4.13 -config-file=/etc/consul.d/config.data >> /data1/consul/run.log 2>&1 &
+```
+
+
+### 服务注册选项
