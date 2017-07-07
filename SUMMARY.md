@@ -1,8 +1,8 @@
 # Summary
 
 * [简介](README.md)
-* 服务管理
-  * 服务容器
+* [服务管理](fu-wu-guan-li.md)
+  * [服务容器/集群](service/docker.md)
   * [服务注册/发现](service/consul.md)
   * [服务发布](service/deploy.md)
   * 代码仓库
