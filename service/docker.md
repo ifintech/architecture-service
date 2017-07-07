@@ -32,7 +32,7 @@ Redirecting to /bin/systemctl stop  docker.service
 
 ## swarm  
 > 现在只把web服务和job服务这种计算**无状态服务**迁移到swarm集群上
-> mysql/redis等存储服务大多使用云服务
+> mysql/redis等存储服务尽量使用云服务
 
 #### 构建集群
 
