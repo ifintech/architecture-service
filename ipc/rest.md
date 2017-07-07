@@ -39,7 +39,7 @@
 ## 实施
 
 #### 服务发现
-![](/images/httpgateway.png)
+![](images/httpgateway.png)
 
 #### consul-template 安装配置
 
