@@ -49,23 +49,35 @@ docker swarm join \
 ```
     
 显示token cmd
+```shell
 docker swarm join-token manager
+```
     
 集群节点
+```shell
 docker node ls
+```
 
 发布服务
+```shell
 docker service create --replicas 2 -p 80:80 --name app_name image cmd
+```
 
 查看服务
+```shell
 docker service ls
 docker service ps app_name
+```
 
 调整服务规模
+```shell
 docker service scale app_name=4
+```
 
 更新服务
+```shell
 docker service update app_name
+```
 
 #### docker镜像
 
