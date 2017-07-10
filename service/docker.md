@@ -55,8 +55,10 @@ docker service create --replicas 2 --name app_name image cmd
 
 查看服务
 docker service ls
+docker service ps app_name
 
 调整服务规模
+docker service scale app_name=4
 
 #### docker镜像
 
