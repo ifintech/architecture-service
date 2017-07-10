@@ -36,6 +36,17 @@ Redirecting to /bin/systemctl stop  docker.service
 
 #### 构建集群
 
+创建集群
+docker swarm init --advertise-addr <MANAGER-IP>
+
+添加进集群
+docker swarm join \
+    --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
+    192.168.99.100:2377
+    
+集群节点
+docker node ls
+
 
 #### docker镜像
 
