@@ -53,6 +53,10 @@ docker node ls
 发布服务
 docker service create --replicas 2 --name app_name image cmd
 
+查看服务
+docker service ls
+
+调整服务规模
 
 #### docker镜像
 
