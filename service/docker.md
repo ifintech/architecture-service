@@ -51,7 +51,7 @@ docker swarm join-token manager
 docker node ls
 
 发布服务
-docker service create --replicas 2 --name app_name image cmd
+docker service create --replicas 2 -p 80:80 --name app_name image cmd
 
 查看服务
 docker service ls
@@ -59,6 +59,8 @@ docker service ps app_name
 
 调整服务规模
 docker service scale app_name=4
+
+更新服务
 
 #### docker镜像
 
