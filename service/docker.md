@@ -51,6 +51,7 @@ docker swarm join-token manager
 docker node ls
 
 发布服务
+docker service create --replicas 2 --name app_name image cmd
 
 
 #### docker镜像
