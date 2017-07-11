@@ -5,7 +5,7 @@
   * [服务容器&集群](service/docker.md)
   * [服务注册/发现](service/consul.md)
   * [服务发布](service/deploy.md)
-  * 配置中心
+  * [镜像仓库](service/register.md)
 * [API Gateway](api-gateway.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
