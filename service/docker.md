@@ -37,7 +37,7 @@ Redirecting to /bin/systemctl stop  docker.service
 
 
 
-## 构建管理系统（等待 shipyard-swarm版本发布）
+## 构建管理系统（等待shipyard-swarm版本发布）
 
 使用shipyard作为docker及docker service管理工具
 > Shipyard enables multi-host, Docker cluster management. It uses Docker Swarm for cluster resourcing and scheduling.
