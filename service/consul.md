@@ -109,9 +109,12 @@ consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -join=10
         "deregister_critical_service_after": "5m"
       }
     ]
-  }
+  },
+  "disable_remote_exec": false
 }
 ```
+
+- disable_remote_exec 是否禁止远程执行命令 默认true(视需要情况来打开此选项)
 
 curl --request PUT --data @config.data https://10.0.0.4:8500/v1/agent/service/register
 
