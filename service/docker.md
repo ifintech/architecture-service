@@ -1,5 +1,5 @@
 # 容器
-> 统一使用4C16G的虚拟机
+> 统一使用4C16G的虚拟机 作为node节点
 
 ## docker 
 docker安装
@@ -81,7 +81,4 @@ docker service scale app_name=4
 docker service update app_name
 ```
 
-#### docker镜像
-
-
-#### 服务
+## 镜像仓库
