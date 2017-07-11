@@ -52,7 +52,7 @@ docker node ls
 发布服务
 docker service create --replicas 2 --name app_name image
 
-## 构建管理系统
+## 构建管理系统  
 > ** 等待shipyard-swarm版本发布 **
 
 使用shipyard作为docker及docker service管理工具
