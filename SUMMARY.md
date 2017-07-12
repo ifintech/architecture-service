@@ -1,11 +1,9 @@
 # Summary
 
 * [简介](README.md)
-* [服务容器](service/readme.md)
-  * [容器集群](service/docker.md)
-  * [容器仓库]()
-* [服务发布](service/deploy.md)
-* [服务注册/发现]()
+* [服务容器&集群](docker.md)
+* [服务发布](deploy.md)
+* [服务注册/发现](consul.md)
 * [API Gateway](api-gateway.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
