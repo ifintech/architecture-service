@@ -112,7 +112,7 @@ shipyard 安装配置
 curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash -s
 ```
 
-### 监控监控
+### 容器监控
 ### 容器镜像
 ### 容器日志
 
