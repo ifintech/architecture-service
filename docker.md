@@ -36,7 +36,7 @@ Redirecting to /bin/systemctl stop  docker.service
 > mysql/redis等存储服务尽量使用云服务
 > http://www.dockerinfo.net/4374.html
 
-#### Docker Swarm具有如下基本特性：
+### Docker Swarm具有如下基本特性：
 - 集群管理集成进Docker Engine
 使用内置的集群管理功能，我们可以直接通过Docker CLI命令来创建Swarm集群，然后去部署应用服务，而不再需要其它外部的软件来创建和管理一个Swarm集群。
 - 去中心化设计
@@ -58,7 +58,8 @@ Swarm Manager会给集群中每一个服务分配一个唯一的DNS名称，对�
 - 滚动更新（Rolling Update）
 对于服务需要更新的场景，我们可以在多个Node上进行增量部署更新，Swarm Manager支持通过使用Docker CLI设置一个delay时间间隔，实现多个服务在多个Node上依次进行部署。这样可以非常灵活地控制，如果有一个服务更新失败，则暂停后面的更新操作，重新回滚到更新之前的版本。
 
-创建集群
+### 创建集群
+init swarm
 ```bash
 docker swarm init --advertise-addr <MANAGER-IP>
 ```
@@ -79,6 +80,13 @@ docker swarm join-token manager
 ```bash
 docker node ls
 ```
+
+### 管理服务
+在Swarm集群上部署服务，必须在Manager Node上进行操作。先说明一下Service、Task、Container（容器）这个三个概念的关系，如下图（出自Docker官网）非常清晰地描述了这个三个概念的含义：
+![](http://img.dockerinfo.net/2017/03/20170315210902.jpg)
+
+
+
 
 ## 构建管理系统  
 > ** 等待shipyard-swarm版本发布 **
