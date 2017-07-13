@@ -114,7 +114,9 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
 ```
 
 
+## 安装部署
 
+- 申请云主机3台
 
 
 
