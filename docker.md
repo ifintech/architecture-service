@@ -116,7 +116,6 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
 使用[beats](https://www.elastic.co/cn/products/beats)监控容器,参考服务治理-监控报警章节
 
 ## 安装部署
-
 - 申请云主机3台（统一使用4C16G的虚拟机 作为docker swarm node节点）
 
 
