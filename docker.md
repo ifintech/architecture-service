@@ -85,12 +85,16 @@ docker node ls
 在Swarm集群上部署服务，必须在Manager Node上进行操作。先说明一下Service、Task、Container（容器）这个三个概念的关系，如下图（出自Docker官网）非常清晰地描述了这个三个概念的含义：
 ![](http://img.dockerinfo.net/2017/03/20170315210902.jpg)
 
-#### 创建服务
-
 创建Docker服务，可以使用docker service create命令实现
 ```bash
 docker service create --replicas 2 --name my_web nginx
 ```
+
+扩容缩容服务
+```bash
+docker service scale my_web=3
+```
+
 
 
 
