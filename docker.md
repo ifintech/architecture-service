@@ -1,5 +1,4 @@
 # 服务容器&集群
-> 统一使用4C16G的虚拟机 作为docker swarm node节点
 
 ## docker 
 docker安装
@@ -113,10 +112,12 @@ shipyard 安装配置
 curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash -s
 ```
 
+### 监控监控
+### 容器镜像
 
 ## 安装部署
 
-- 申请云主机3台
+- 申请云主机3台（统一使用4C16G的虚拟机 作为docker swarm node节点）
 
 
 
