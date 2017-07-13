@@ -1,6 +1,7 @@
 # 容器镜像
 
-## 镜像制作
+## 基础镜像
+
 
 ## 镜像仓库
 > 线上采用docker-registry，线下采用gitlab内置的registry
