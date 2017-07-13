@@ -89,11 +89,19 @@ docker node ls
 ```bash
 docker service create --replicas 2 --name my_web nginx
 ```
-
 扩容缩容服务
 ```bash
 docker service scale my_web=3
 ```
+删除服务
+```bash
+docker service rm my_web
+```
+滚动更新(具体参考服务持续发布)
+```bash
+docker service update my_web
+```
+
 
 
 
