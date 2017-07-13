@@ -97,7 +97,7 @@ docker service scale my_web=3
 ```bash
 docker service rm my_web
 ```
-滚动更新(具体参考服务持续发布)
+滚动更新(**具体参考服务持续发布**)
 ```bash
 docker service update my_web
 ```
