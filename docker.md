@@ -112,7 +112,7 @@ shipyard 安装配置
 curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash -s
 ```
 
-### 容器监控
+### 容器&集群监控
 使用[beats](https://www.elastic.co/cn/products/beats)监控容器,参考服务治理-监控报警章节
 
 ## 安装部署
