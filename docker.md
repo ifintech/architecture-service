@@ -113,6 +113,7 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
 ```
 
 ### 容器监控
+参考服务治理
 ### 容器镜像
 ### 容器日志
 
