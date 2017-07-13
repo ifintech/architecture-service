@@ -113,7 +113,7 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
 ```
 
 ### 容器监控
-使用[beats](https://www.elastic.co/cn/products/beats)监控容器，参考服务治理章节
+使用[beats](https://www.elastic.co/cn/products/beats)监控容器,参考服务治理章节
 
 ### 容器镜像
 ### 容器日志
