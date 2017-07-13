@@ -89,8 +89,11 @@ docker node ls
 
 创建Docker服务，可以使用docker service create命令实现
 ```bash
-docker service create --name my_web nginx
+docker service create --replicas 2 --name my_web nginx
 ```
+
+
+
 
 
 
