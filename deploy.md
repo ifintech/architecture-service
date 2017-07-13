@@ -10,8 +10,13 @@
 
 
 ### 打包发布
+线下部署流水线push镜像到线上镜像仓库
 
-
-### 部署生效
+### 无缝部署
 > 基于docker service update的滚动更新
+> 文档地址 https://docs.docker.com/engine/swarm/swarm-tutorial/rolling-update/
+
 docker service允许你自定义更新的间隔时间, 并依次更新你的容器, docker service update允许你更新包括image在内的几乎任何东西, docker会按照你设置的更新时间依次更新你的容器, 如果发生了错误, 还可以回滚到之前的状态.
+
+
+
