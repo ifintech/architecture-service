@@ -102,14 +102,7 @@ docker service rm my_web
 docker service update my_web
 ```
 
-
-
-
-
-
-
-
-## 构建管理系统  
+### 构建管理系统  
 > ** 等待shipyard-swarm版本发布 **
 
 使用shipyard作为docker及docker service管理工具
@@ -119,6 +112,8 @@ shipyard 安装配置
 ```bash
 curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash -s
 ```
+
+
 
 
 
