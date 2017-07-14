@@ -5,7 +5,7 @@
 * [服务注册/发现](consul.md)
 * [服务容器&集群](docker.md)
   * [docker](docker/docker.md)
-  * 集群服务
+  * [集群服务](docker/swarm.md)
   * [镜像仓库](docker/dockerhub.md)
   * 实例
 * [服务持续发布](deploy.md)
