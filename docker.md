@@ -127,6 +127,11 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
   vim /etc/resolv.conf
   nameserver 10.0.4.9 //添加到首行
   ```
+  - 安装docker
+  ```shell
+  curl -sSL https://get.daocloud.io/docker | sh
+  ```
+
 
   
   
