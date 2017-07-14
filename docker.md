@@ -1,5 +1,4 @@
 # 服务容器&集群
-
 ## docker 
 docker安装
 
@@ -114,6 +113,21 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
 
 ### 容器&集群监控
 使用[beats](https://www.elastic.co/cn/products/beats)监控容器,参考服务治理-监控报警章节
+
+
+## 具体操作
+- 申请虚拟云主机 4核16G
+- 初始化主机
+  - 更新时区同步时间
+  ```shell
+  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+  ```
+  - 同步dns  
+  vim /etc/resolv.conf
+
+  ```shell
+  nameserver 10.0.4.9 //添加到首行
+  ```
 
 
 
