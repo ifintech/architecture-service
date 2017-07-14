@@ -104,8 +104,6 @@ docker service rm my_web
 docker service update my_web
 ```
 
-### 容器
-
 ### 构建管理系统  
 > ** 等待shipyard-swarm版本发布 **
 
@@ -122,6 +120,8 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
 
 
 ## 实例
+
+#### 集群创建
 - 申请虚拟云主机 4核16G
 - 初始化主机
   - 更新时区同步时间
