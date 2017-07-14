@@ -131,6 +131,17 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
   ```shell
   curl -sSL https://get.daocloud.io/docker | sh
   ```
+  - 使用阿里云加速镜像
+  ```shell
+  sudo mkdir -p /etc/docker
+  sudo tee /etc/docker/daemon.json <<-'EOF'
+  {
+    "registry-mirrors": ["https://emst96p0.mirror.aliyuncs.com"]
+  }
+  EOF
+  sudo systemctl daemon-reload
+  sudo systemctl restart docker
+  ```
 
 
   
