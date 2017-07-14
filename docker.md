@@ -121,7 +121,7 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
 使用[beats](https://www.elastic.co/cn/products/beats)监控容器,参考服务治理-监控报警章节
 
 
-## 具体操作
+## 实例
 - 申请虚拟云主机 4核16G
 - 初始化主机
   - 更新时区同步时间
