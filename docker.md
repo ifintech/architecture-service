@@ -122,6 +122,8 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
   ```shell
   cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   ```
+  
+  
 
 
 
