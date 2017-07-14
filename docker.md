@@ -122,12 +122,6 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
   ```shell
   cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   ```
-  - 同步dns  
-
-  ```shell
-  vim /etc/resolv.conf
-  nameserver 10.0.4.9 //添加到首行
-  ```
 
 
 
