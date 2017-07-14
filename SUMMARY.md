@@ -7,6 +7,7 @@
   * [docker](docker/docker.md)
   * 集群服务
   * [镜像仓库](docker/dockerhub.md)
+  * 实例
 * [服务持续发布](deploy.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
