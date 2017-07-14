@@ -1,6 +1,6 @@
 # 服务容器&集群
 ## docker 
-docker安装
+### docker安装
 
 >官方安装 https://store.docker.com/editions/community/docker-ce-server-centos?tab=description
 
@@ -28,6 +28,10 @@ Redirecting to /bin/systemctl restart  docker.service
 [root@localhost vagrant]# service docker stop
 Redirecting to /bin/systemctl stop  docker.service
 ```
+
+### 容器日志
+
+
 
 ## swarm集群及服务
 > 现在只把web服务和job服务这种计算**无状态服务**迁移到swarm集群上
@@ -99,6 +103,8 @@ docker service rm my_web
 ```bash
 docker service update my_web
 ```
+
+### 容器
 
 ### 构建管理系统  
 > ** 等待shipyard-swarm版本发布 **
