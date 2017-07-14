@@ -27,53 +27,9 @@ Swarm Manager会给集群中每一个服务分配一个唯一的DNS名称，对�
 对于服务需要更新的场景，我们可以在多个Node上进行增量部署更新，Swarm Manager支持通过使用Docker CLI设置一个delay时间间隔，实现多个服务在多个Node上依次进行部署。这样可以非常灵活地控制，如果有一个服务更新失败，则暂停后面的更新操作，重新回滚到更新之前的版本。
 
 
-
-### 容器&集群监控
-使用[beats](https://www.elastic.co/cn/products/beats)监控容器,参考服务治理-监控报警章节
-
-
 ## 实例
 
-#### 集群创建
-- 申请虚拟云主机 4核16G
-- 初始化主机
-  - 更新时区同步时间
-  ```shell
-  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-  ```
-  - 设置dns
-  ```shell
-  vim /etc/resolv.conf
-  nameserver 10.0.4.9 //添加到首行
-  ```
-  - 安装docker
-  ```shell
-  curl -sSL https://get.daocloud.io/docker | sh
-  ```
-  - 使用阿里云加速镜像
-  ```shell
-  sudo mkdir -p /etc/docker
-  sudo tee /etc/docker/daemon.json <<-'EOF'
-  {
-    "registry-mirrors": ["https://emst96p0.mirror.aliyuncs.com"]
-  }
-  EOF
-  sudo systemctl daemon-reload
-  sudo systemctl restart docker
-  ```
-  - init swarm
-  ```bash
-  docker swarm init --advertise-addr <MANAGER-IP>
-  ```
 
-  - 添加进集群  
-  ```bash
-  docker swarm join \
-  --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
-  192.168.99.100:2377
-  ```
-  
-  #### 
 
 
 
