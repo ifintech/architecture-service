@@ -29,8 +29,6 @@ Redirecting to /bin/systemctl restart  docker.service
 Redirecting to /bin/systemctl stop  docker.service
 ```
 
-### 容器日志
-
 
 
 ## swarm集群及服务
