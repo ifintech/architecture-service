@@ -129,7 +129,7 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
   ```
   - 安装docker
   ```shell
-  curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
+  curl -sSL https://get.daocloud.io/docker | sh
   ```
 
 
