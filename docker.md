@@ -142,6 +142,19 @@ curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash 
   sudo systemctl daemon-reload
   sudo systemctl restart docker
   ```
+  - init swarm
+  ```bash
+  docker swarm init --advertise-addr <MANAGER-IP>
+  ```
+
+  - 添加进集群  
+  ```bash
+  docker swarm join \
+  --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
+  192.168.99.100:2377
+```
+
+
 
 
   
