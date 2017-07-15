@@ -44,9 +44,16 @@ docker swarm join \
 ```bash
 # 自定义内网dns
 echo '127.0.0.1 a.com' >> /data1/dns/etc/dnshosts
+# 设置配置
 docker config create dns-dnshosts /data1/dns/etc/dnshosts
+# 启动服务 2个实例 对外提供53端口dns服务
 docker service create --name dns \
     -p 53:53/udp \
+    --replicas 2 \
+    --limit-cpu .5 \
+    --limit-memory 128mb \
     --config source=dns-dnshosts,target=/etc/dnshosts \
     ifintech/online-dns
+# 重启服务(加入更新配置后)
+docker service update dns --force
 ```
