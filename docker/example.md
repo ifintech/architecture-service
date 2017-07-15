@@ -40,7 +40,7 @@ docker swarm join \
 
 ### 创建服务
 
-#### 创建dns服务
+#### dns服务
 ```bash
 # 自定义内网dns
 echo '127.0.0.1 a.com' >> /data1/dns/etc/dnshosts
@@ -57,3 +57,5 @@ docker service create --name dns \
 # 重启服务(加入更新配置后)
 docker service update dns --force --update-delay 15
 ```
+
+#### 
