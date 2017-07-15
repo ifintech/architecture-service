@@ -40,13 +40,12 @@ docker swarm join \
 
 ### 创建服务
 
-创建dns服务
+#### 创建dns服务
 ```bash
+# 自定义内网dns
 echo '127.0.0.1 a.com' >> /data1/dns/etc/dnshosts
 docker config create dns-dnshosts /data1/dns/etc/dnshosts
 docker service create --name dns \
-    --dns=127.0.0.1 \
-    --dns=168.63.129.16 \
     -p 53:53/udp \
     --config source=dns-dnshosts,target=/etc/dnshosts \
     ifintech/online-dns
