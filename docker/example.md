@@ -15,6 +15,7 @@ nameserver 10.0.4.9 //添加到首行
 ```shell
 curl -sSL https://get.daocloud.io/docker | sh
 ```
+- 更新存储位置
 - 使用阿里云加速镜像
 ```shell
 sudo mkdir -p /etc/docker
@@ -57,5 +58,3 @@ docker service create --name dns \
 # 重启服务(加入更新配置后)
 docker service update dns --force --update-delay 15
 ```
-
-#### 
