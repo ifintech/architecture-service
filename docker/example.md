@@ -55,5 +55,5 @@ docker service create --name dns \
     --config source=dns-dnshosts,target=/etc/dnshosts \
     ifintech/online-dns
 # 重启服务(加入更新配置后)
-docker service update dns --force
+docker service update dns --force --update-delay 15
 ```
