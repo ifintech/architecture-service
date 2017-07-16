@@ -65,6 +65,13 @@ docker service update dns --force --update-delay 15
 docker service create --name http-www-gw \
     -p 443:443 \
     --replicas 2 \
-    ifintech/openresty
+    ifintech/online-openresty
 ```
 #### 内部HTTP消息总线
+```bash
+# 启动服务 2个实例 对外提供80端口http服务
+docker service create --name http-www-gw \
+    -p 80:80 \
+    --replicas 2 \
+    ifintech/online-httpgateway
+```
