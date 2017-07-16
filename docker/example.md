@@ -74,7 +74,7 @@ docker service create --name http-www-gw \
 ```bash
 # 启动服务 2个实例 对外提供80端口http服务
 docker service create --name http-www-gw \
-    -p 81:81 \
+    -p 80:80 \
     --replicas 2 \
     ifintech/online-httpgateway
 ```
