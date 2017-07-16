@@ -61,13 +61,16 @@ docker service update dns --force --update-delay 15
 
 #### 对外nginx服务
 ```bash
+# 设置配置
+docker config create openresty-upstream /data1/openresty/upstream
+docker config create openresty-
 # 启动服务 2个实例 对外提供443端口https服务
 docker service create --name http-www-gw \
     -p 443:443 \
     --replicas 2 \
     ifintech/online-openresty
 ```
-#### 内部HTTP消息总线
+#### 内部http消息总线
 ```bash
 # 启动服务 2个实例 对外提供80端口http服务
 docker service create --name http-www-gw \
