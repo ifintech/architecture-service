@@ -59,4 +59,6 @@ docker service create --name dns \
 docker service update dns --force --update-delay 15
 ```
 
-#### nginx服务
+#### 对外nginx服务
+# 启动服务 2个实例 对外提供443端口https服务
+
