@@ -9,7 +9,7 @@
 
 ![](http://upload-images.jianshu.io/upload_images/3912920-4742d0f9ff9bdeb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-服务实例需要动态分配网络地址，而且一组服务实例可能会因为自动扩展、失败或者升级发生动态变化，因此 你的客户端代码应该使用更加精细的服务发现机制。
+服务实例需要动态分配网络地址，而且一组服务实例可能会因为自动扩展、失败或者升级发生动态变化，因此你的客户端代码应该使用更加精细的服务发现机制。
 
 有两种主要的服务发现机制：**客户端发现**和**服务端发现**。
 
@@ -56,7 +56,7 @@ Self-Registration模式（在使用）
 ![](http://upload-images.jianshu.io/upload_images/3912920-5bd07f6c772a719f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-#### 选型 consul
+#### 注册中心选型 consul
 
 ##### 安装配置consul集群
 
