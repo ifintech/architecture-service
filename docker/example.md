@@ -66,7 +66,8 @@ docker config create openresty-upstream /data1/openresty/upstream
 docker config create openresty-www.conf /data1/openresty/www.conf
 
 # 设置密钥
-docker secret create my_secret ./secret.json
+docker secret create site.key site.key
+docker secret create site.crt site.crt
 # 启动服务 2个实例 对外提供443端口https服务
 docker service create --name http-www-gw \
     -p 443:443 \
