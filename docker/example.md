@@ -75,7 +75,7 @@ docker service create --name http-www-gw \
     --config source=openresty-www.conf,target=/etc/ \
     --secret site.key \
     --secret site.crt \
-    --limit-cpu 1 \
+    --limit-cpu 2 \
     --limit-memory 2048mb \
     ifintech/online-openresty
 ```
