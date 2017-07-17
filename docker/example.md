@@ -74,7 +74,7 @@ docker service create --name https-gw \
     --config source=openresty-upstream,target=/etc/nginx/upstream.conf \
     --config source=openresty-www.conf,target=/etc/nginx/vhosts/www.conf \
     --secret domain.key \
-    --secret site.crt \
+    --secret domain.crt \
     --limit-cpu 2 \
     --limit-memory 2048mb \
     ifintech/online-openresty
@@ -84,15 +84,13 @@ docker service create --name https-gw \
 # 设置配置
 docker config create httpgateway-upstream /data1/openresty/upstream
 docker config create httpgateway-www.conf /data1/openresty/www.conf
-docker config create httpgateway-
+docker config create httpgateway-service.json
 # 启动服务 2个实例 对外提供80端口http服务
 docker service create --name http-gw \
     -p 443:443 \
     --replicas 2 \
     --config source=openresty-upstream,target=/etc/nginx/upstream \
     --config source=openresty-www.conf,target=/etc/nginx/vhosts/www.conf \
-    --secret site.key \
-    --secret site.crt \
     --limit-cpu 2 \
     --limit-memory 2048mb \
     ifintech/online-httpgateway
