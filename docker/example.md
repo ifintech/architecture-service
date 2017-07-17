@@ -68,7 +68,7 @@ docker config create openresty-www.conf /data1/openresty/www.conf
 docker secret create site.key site.key
 docker secret create site.crt site.crt
 # 启动服务 2个实例 对外提供443端口https服务
-docker service create --name http-www-gw \
+docker service create --name https-gw \
     -p 443:443 \
     --replicas 2 \
     --config source=openresty-upstream,target=/etc/ \
@@ -82,7 +82,7 @@ docker service create --name http-www-gw \
 #### 内部http消息总线
 ```bash
 # 启动服务 2个实例 对外提供80端口http服务
-docker service create --name http-www-gw \
+docker service create --name http-gw \
     -p 80:80 \
     --replicas 2 \
     ifintech/online-httpgateway
