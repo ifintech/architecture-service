@@ -64,7 +64,6 @@ docker service update dns --force --update-delay 15
 # 设置配置
 docker config create openresty-upstream /data1/openresty/upstream
 docker config create openresty-www.conf /data1/openresty/www.conf
-
 # 设置密钥
 docker secret create site.key site.key
 docker secret create site.crt site.crt
@@ -76,6 +75,8 @@ docker service create --name http-www-gw \
     --config source=openresty-www.conf,target=/etc/ \
     --secret site.key \
     --secret site.crt \
+    --limit-cpu 2 \
+    --limit-memory 2048mb \
     ifintech/online-openresty
 ```
 #### 内部http消息总线
