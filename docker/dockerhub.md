@@ -15,71 +15,30 @@
    docker pull registry
    ```
 
-2. 配置HTTPS证书
-
-   - **/etc/docker/certs/registry.crt**
-   - **/etc/docker/certs/registry.key**
-
-3. 配置访问认证
+2. 配置访问认证
 
   ```shell
   mkdir /etc/docker/auth
   docker run --entrypoint htpasswd registry -Bbn [用户名] [密码] > /etc/docker/auth/htpasswd
   ```
 
-4. 修改系统配置
-
-   - 关闭 SELinux
-
-     ```shell
-     /usr/sbin/sestatus -v #查看SELinux状态 如果SELinux status参数为enabled即为开启状态
-     setenforce 0 #临时关闭（不用重启机器）
-     vim /etc/selinux/config #永久关闭 将SELINUX=enforcing改为disabled 重启机器即可
-     ```
-
-5. 启动服务
-
-   安装**docker-compose**
+3. 启动服务
 
    ```shell
-   curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+   docker run -d --restart=always --name dockerhub \
+   -v /tmp:/var/lib/registry \
+   -v /etc/docker/auth:/auth \
+   -e "REGISTRY_AUTH=htpasswd" \
+   -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+   -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+   -e REGISTRY_HTTP_ADDR=0.0.0.0:5000 \
+   -p 5000:5000 \
+   registry
    ```
 
-   添加启动配置文件 **docker-compose-registry.yml**
+   - /tmp:/var/lib/registry  指定镜像存储的路径
 
-   ```yaml
-   version: "2"
-   services:
-     registry:
-       restart: always
-       image: registry
-       ports:
-         - 443:443
-       environment:
-         REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry.crt
-         REGISTRY_HTTP_TLS_KEY: /certs/registry.key
-         REGISTRY_AUTH: htpasswd
-         REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-         REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-       volumes:
-         - /tmp:/var/lib/registry
-         - /etc/docker/certs:/certs
-         - /etc/docker/auth:/auth
-   ```
-
-   ```shell
-   docker-compose -f docker-compose-registry.yml up -d
-   ```
-
-   **普通安装方法**
-
-   ```shell
-   docker run -d --restart=always --name registry -v /tmp:/var/lib/registry -v /etc/docker/certs:/certs -e REGISTRY_HTTP_ADDR=0.0.0.0:443 -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt -e REGISTRY_HTTP_TLS_KEY=/certs/registry.key -v /etc/docker/auth:/auth -e "REGISTRY_AUTH=htpasswd" -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd -p 443:443 registry
-   ```
-
-   - /tmp:/var/lib/registry  用来指定存放仓库的本地路径
-
-6. 验证
+4. 验证
 
    访问`https://[REGISTRYHOST]/v2`  状态码为200即安装成功
 

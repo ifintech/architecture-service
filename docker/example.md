@@ -62,11 +62,11 @@ docker service update dns --force --update-delay 15
 #### 对外nginx服务
 ```bash
 # 设置配置
-docker config create openresty-upstream /data1/openresty/upstream
+docker config create openresty-upstream /data1/openresty/upstream.conf
 docker config create openresty-www.conf /data1/openresty/www.conf
 # 设置密钥
-docker secret create site.key site.key
-docker secret create site.crt site.crt
+docker secret create domain.key /data1/openresty/domain.key
+docker secret create domain.crt /data1/openresty/domain.crt
 # 启动服务 2个实例 对外提供443端口https服务
 docker service create --name https-gw \
     -p 443:443 \
