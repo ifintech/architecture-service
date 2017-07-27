@@ -1,7 +1,7 @@
 #docker
 ## docker安装
 
->官方安装 https://store.docker.com/editions/community/docker-ce-server-centos?tab=description
+>[官方安装](https://store.docker.com/editions/community/docker-ce-server-centos?tab=description)
 
 中国镜像安装最新稳定版
 ```Shell
@@ -27,12 +27,6 @@ Redirecting to /bin/systemctl restart  docker.service
 [root@localhost vagrant]# service docker stop
 Redirecting to /bin/systemctl stop  docker.service
 ```
-
-
-## docker监控
-
-
-## docker日志采集
 
 ## docker资源控制
 

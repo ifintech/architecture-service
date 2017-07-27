@@ -1,13 +1,12 @@
-# 容器镜像
+# 镜像仓库
 
-## 基础镜像
+>  线上采用docker-registry，线下采用gitlab内置的registry服务
 
+## registry
 
-## 镜像仓库
-> 线上采用docker-registry，线下采用gitlab内置的registry
-> **docker-registry**是官方提供的工具，可以用于构建私有的镜像仓库。
+> **docker registry**是官方提供的工具，可以用于构建私有的镜像仓库。
 
-### 安装配置
+### 搭建
 
 1. 拉取镜像
 
@@ -25,8 +24,8 @@
 3. 启动服务
 
    ```shell
-   docker run -d --restart=always --name dockerhub \
-   -v /tmp:/var/lib/registry \
+   docker run -d --restart=always --name docker-hub \
+   -v /mnt/dockerhub:/var/lib/registry \
    -v /etc/docker/auth:/auth \
    -e "REGISTRY_AUTH=htpasswd" \
    -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
@@ -36,13 +35,37 @@
    registry
    ```
 
-   - /tmp:/var/lib/registry  指定镜像存储的路径
+   - /mnt/dockerhub  镜像存储的本地路径
 
-4. 验证
+4. 配置nginx
+
+   nginx 负责向外提供https的接口, 并转发请求到registry上
+
+   ```nginx
+   server {
+       listen       443;
+       server_name  REGISTRYHOST;
+
+       access_log  /var/log/nginx/dockerhub.access.log  main;
+       error_log   /var/log/nginx/dockerhub.error.log;
+
+       location / {
+           proxy_pass http://[REGISTRY_IP]:5000;
+       }
+   }
+   ```
+
+   如果服务器开启了SELinux, 则需要允许通过网络连接到*httpd*服务
+
+   ```shell
+   setsebool -P httpd_can_network_connect 1
+   ```
+
+5. 验证
 
    访问`https://[REGISTRYHOST]/v2`  状态码为200即安装成功
 
-### 操作
+### 使用
 
 - 推送镜像
 

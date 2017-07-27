@@ -36,12 +36,12 @@ docker swarm init --advertise-addr <MANAGER-IP>
 ```bash
 docker swarm join \
 --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
-192.168.99.100:2377
+<MANAGER-IP>:2377
 ```
 
-### 创建服务
+### 搭建服务
 
-#### dns服务
+#### 内网dns服务
 ```bash
 # 自定义内网dns
 echo '127.0.0.1 a.com' >> /data1/dns/etc/dnshosts
@@ -54,7 +54,7 @@ docker service create --name dns \
     --limit-cpu .5 \
     --limit-memory 128mb \
     --config source=dns-dnshosts,target=/etc/dnshosts \
-    ifintech/online-dns
+    ifintech/dns
 # 重启服务(加入更新配置后)
 docker service update dns --force --update-delay 15
 ```
@@ -64,20 +64,15 @@ docker service update dns --force --update-delay 15
 # 设置配置
 docker config create openresty-upstream /data1/openresty/upstream.conf
 docker config create openresty-www.conf /data1/openresty/www.conf
-# 设置密钥
-docker secret create domain.key /data1/openresty/domain.key
-docker secret create domain.crt /data1/openresty/domain.crt
-# 启动服务 2个实例 对外提供443端口https服务
+# 启动服务 2个实例 对外提供81端口http服务
 docker service create --name https-gw \
-    -p 443:443 \
+    -p 81:80 \
     --replicas 2 \
     --config source=openresty-upstream,target=/etc/nginx/upstream.conf \
     --config source=openresty-www.conf,target=/etc/nginx/vhosts/www.conf \
-    --secret domain.key \
-    --secret domain.crt \
     --limit-cpu 2 \
     --limit-memory 2048mb \
-    ifintech/online-openresty
+    ifintech/openresty
 ```
 #### 内部http消息总线
 ```bash
@@ -87,12 +82,29 @@ docker config create httpgateway-www.conf /data1/openresty/www.conf
 docker config create httpgateway-service.json /data1/openresty/service.json
 # 启动服务 2个实例 对外提供80端口http服务
 docker service create --name http-gw \
-    -p 443:443 \
+    -p 80:80 \
     --replicas 2 \
     --config source=httpgateway-upstream,target=/etc/nginx/upstream \
     --config source=httpgateway-www.conf,target=/etc/nginx/vhosts/www.conf \
     --config source=httpgateway-service.json,target=/etc/nginx/service.json \
     --limit-cpu 2 \
     --limit-memory 2048mb \
-    ifintech/online-httpgateway
+    ifintech/httpgateway
 ```
+### 代理服务
+
+```shell
+mkdir -p /srv/docker/squid/cache
+chcon -Rt svirt_sandbox_file_t /srv/docker/squid
+```
+
+```shell
+docker service create --name out-gateway \
+    -p 3128:3128 \
+    --mount type=bind,src=/srv/docker/squid/cache,dst=/var/spool/squid3 \
+    --replicas 2 \
+    --limit-cpu 1 \
+    --limit-memory 1024mb \
+    ifintech/squid
+```
+

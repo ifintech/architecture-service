@@ -1,7 +1,6 @@
 # Summary
 
 * [简介](README.md)
-* [API Gateway](api-gateway.md)
 * [服务注册/发现](consul.md)
 * [服务容器&集群](docker.md)
   * [docker](docker/docker.md)
@@ -9,6 +8,7 @@
   * [镜像仓库](docker/dockerhub.md)
   * [实例](docker/example.md)
 * [服务持续发布](deploy.md)
+* [API Gateway](api-gateway.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
   * [异步消息](ipc/mq.md)

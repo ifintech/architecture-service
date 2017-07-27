@@ -3,94 +3,26 @@
 ## beats
 
 ```shell
-docker pull docker.elastic.co/beats/metricbeat:5.5.0
-```
-
-```
 chmod 666 /var/run/docker.sock
-```
-
-**metricbeat.yml**
-
-```yaml
-metricbeat.modules:
-- module: system
-  metricsets:
-    - cpu
-    - filesystem
-    - memory
-    - network
-    - process
-  enabled: true
-  period: 10s
-  processes: ['.*']
-  cpu_ticks: false
-- module: docker
-  metricsets: ["container", "cpu", "diskio", "healthcheck", "info", "memory", "network"]
-  hosts: ["unix:///var/run/docker.sock"]
-  enabled: true
-  period: 10s
-output.elasticsearch:
-  hosts: ["10.1.2.4:9200"]
-  template.name: "metricbeat"
-  template.path: "metricbeat.template.json"
-  template.overwrite: false
-```
-
-```shell
-docker config create metricbeat-conf /data1/metricbeat/metricbeat.yml
-```
-
-```shell
-docker run \
-  --name metricbeat \
-  -v /proc:/hostfs/proc:ro \
-  -v /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro \
-  -v /:/hostfs:ro \
-  -v /data1/metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  --net=host \
-  dockerhub.jrmf360.com/elastic/metricbeat:5.5.0 
 ```
 
 ```shell
 docker service create --name metricbeat \
   --mode global \
-  --config source=metricbeat-conf,target=/usr/share/metricbeat/metricbeat.yml \
   --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
   --mount type=bind,src=/proc,dst=/hostfs/proc,ro=true \
   --mount type=bind,src=/sys/fs/cgroup,dst=/hostfs/sys/fs/cgroup,ro=true \
   --mount type=bind,src=/,dst=/hostfs,ro=true \
+  --env ES=10.1.2.5:9200 \
   --network host \
-  dockerhub.jrmf360.com/elastic/metricbeat:5.5.0
+  ifintech/metricbeat
 ```
 
 ### 安装kibana 索引及可视化模板
 
 ```shell
-docker run \
-dockerhub.jrmf360.com/elastic/metricbeat:5.5.0 ./scripts/import_dashboards -es http://10.1.2.4:9200 -url https://artifacts.elastic.co/downloads/beats/beats-dashboards/beats-dashboards-5.5.0.zip
-```
-
-## Nginx
-
-```shell
-setsebool -P httpd_can_network_connect 1
-```
-
-## logspout
-
-```shell
-docker service create --name logspout \
-  --mode global \
-  --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-  gliderlabs/logspout syslog+tcp://10.1.2.4:514
-```
-
-## network
-
-```shell
-docker network create --driver overlay --subnet 192.168.1.0/24  elknet
+docker run -t \
+ifintech/metricbeat ./scripts/import_dashboards -es http://10.1.2.5:9200 -url https://artifacts.elastic.co/downloads/beats/beats-dashboards/beats-dashboards-5.5.0.zip
 ```
 
 ### logstash
@@ -114,8 +46,24 @@ filter {
   }
   # 判断日志类型
   if [service_name] =~ /^app+/ {
-    # todo php日志识别
+    # app 日志需要进一步解析 去除附加的头信息
+    dissect {
+      mapping => { 
+        "log_content" => "%{?prefix} said into stdout: %{app_log_content}"
+      }
+    }
+    grok {
+      match => {
+        "app_log_content" => "^\"(?<app_log_content_trim>[\s\S]+)\"$"
+      }
+    }
+    if "_grokparsefailure" not in [tags] {
+      mutate {
+        update       => ["log_content", "%{app_log_content_trim}"]
+      }
+    }
     mutate {
+      remove_field => ["app_log_content", "app_log_content_trim"]
       add_field => ["log_type", "app"]
     }
   } else if [service_name] =~ /^http+/ {
@@ -134,14 +82,36 @@ filter {
     }
   } 
   # 获取落地路径
-  if [log_type] == "other" {
+  if [log_type] == "app" {
+    # 非json格式的日志 则为php日志
+    if "_jsonparsefailure" in [tags] {
+      mutate {
+        replace   => ["log_type", "php"]
+        add_field => ["log_path", "%{service_name}/%{+YYYYMM}/%{+YYYYMMdd}.log"]
+      }
+    }
+  } else if [log_type] == "nginx" {
+    # 非json格式的日志 为nginx error日志
+    if "_jsonparsefailure" in [tags] {
+      mutate {
+        add_field => ["app", "error"]
+        add_field => ["level", "error"]
+        add_field => ["log_path", "error/%{+YYYYMM}/error.%{+YYYYMMdd}.log"]
+      }
+    }else{
+      mutate {
+        add_field => ["level", "info"]
+        add_field => ["log_path", "%{app}/%{+YYYYMM}/access.%{+YYYYMMdd}.log"]
+      }
+    }
+  } else if [log_type] == "other" {
     mutate {
-      add_field => ["log_path", "%{service_name}/%{+YYYYMMdd}.log"]
+      add_field => ["log_path", "%{service_name}/%{+YYYYMM}/%{+YYYYMMdd}.log"]
     }
   }
   # 去掉不必要的数据项
   mutate {
-    remove_field => ["message"]
+    remove_field => ["message", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
   }
 }
 output {
@@ -155,7 +125,7 @@ output {
   }
   if [log_type] in ["app", "nginx"]{
     elasticsearch {
-      hosts => ["10.1.2.4:9200"]
+      hosts => ["10.1.2.5:9200"]
       index => "logstash-%{log_type}-%{app}-%{+YYYYMM}"
       document_type => "%{level}"
       flush_size => 1000 #批量上送数据最大条数 不会超过pipeline.batch.size 默认500
@@ -169,6 +139,27 @@ output {
 input {
   stdin {}
 }   
+filter {
+  dissect {
+    mapping => { 
+        "message" => "%{?prefix} said into stdout: %{log_content}"
+      }
+    }
+    grok {
+      match => {
+        "log_content" => "^\"(?<app_log_content_trim>[\s\S]+)\"$"
+      }
+    }
+    if "_grokparsefailure" not in [tags] {
+      mutate {
+        update       => ["log_content", "%{app_log_content_trim}"]
+      }
+    }
+    mutate {
+      remove_field => ["app_log_content", "app_log_content_trim"]
+      add_field => ["log_type", "app"]
+    }
+}
 output {
    stdout { codec => rubydebug }
 }
@@ -238,7 +229,7 @@ services:
     ports:
       - 514:10514
     networks:
-      - elknet
+      - servicenet
     configs:
       - source: logstash-service
         target: /conf.d/service.conf
@@ -254,7 +245,7 @@ services:
     ports:
       - 9200:9200
     networks:
-      - elknet
+      - servicenet
     environment:
       SERVICE_NAME: log_elasticsearch
       discovery.zen.minimum_master_nodes: 3
@@ -270,7 +261,7 @@ services:
     ports:
       - 5601:5601
     networks:
-      - elknet
+      - servicenet
     environment:
       ELASTICSEARCH_URL: http://log_elasticsearch:9200
     deploy:
@@ -279,20 +270,70 @@ configs:
   logstash-service:
     file: /data1/logstash/service.conf
 networks:
-  elknet:
+  servicenet:
     external: true
 ```
 
 ```shell
-docker stack deploy log --compose-file compose-stack-log.yml
-```
+docker config create wallet-constant /data1/wallet/constant.php
+docker config create wallet-security /data1/wallet/security.php
+docker config create wallet-server   /data1/wallet/server.php
 
-```shell
-docker service create --name wallet \
+docker service create --name app-wallet \
   --with-registry-auth \
   --replicas 2 \
   --env PHP_RUN_ENV=product \
+  --config source=wallet-constant,target=/data1/htdocs/wallet/conf/constant/product.php \
+  --config source=wallet-security,target=/data1/htdocs/wallet/conf/security/product.php \
+  --config source=wallet-server,target=/data1/htdocs/wallet/conf/server/product.php \
   -p 30000:9000 \
   dockerhub.jrmf360.com/cash-loan/wallet php-fpm
 ```
 
+### logtail
+
+**安装配置** 
+
+1. 需要按kibana版本来安装对应版本的插件 [插件地址](https://github.com/sivasamyk/logtrail/releases)
+
+```shell
+cd /usr/share/kibana
+./bin/kibana-plugin install https://github.com/sivasamyk/logtrail/releases/download/v0.1.17/logtrail-5.4.3-0.1.17.zip
+```
+
+1. 修改配置文件 **/usr/share/kibana/plugins/logtrail/package.json**
+
+```json
+{
+  "index_patterns" : [
+    {
+      "es": {
+        "default_index": "logstash-app-*",
+        "allow_url_parameter": true
+      },
+      "tail_interval_in_seconds": 10,
+      "es_index_time_offset_in_seconds": 0,
+      "display_timezone": "local",
+      "display_timestamp_format": "MM-DD HH:mm:ss",
+      "max_buckets": 500,
+      "nested_objects" : false,
+      "default_time_range_in_days": 10,
+      "max_hosts": 100,
+      "max_events_to_keep_in_viewer": 5000,
+      "fields" : {
+        "mapping" : {
+            "timestamp" : "@timestamp",
+            "display_timestamp" : "@timestamp",
+            "hostname" : "server_ip",
+            "program": "app",
+            "message": "log_content"
+        }
+      }
+    }
+  ]
+}
+```
+
+- default_index 默认索引
+- tail_interval_in_seconds 数据刷新间隔时间
+- default_time_range_in_days 默认查询时间范围(天)
