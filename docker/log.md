@@ -13,7 +13,7 @@ docker service create --name metricbeat \
   --mount type=bind,src=/proc,dst=/hostfs/proc,ro=true \
   --mount type=bind,src=/sys/fs/cgroup,dst=/hostfs/sys/fs/cgroup,ro=true \
   --mount type=bind,src=/,dst=/hostfs,ro=true \
-  --env ES=10.1.2.5:9200 \
+  --env ES=10.1.2.4:9200 \
   --network host \
   ifintech/metricbeat
 ```
@@ -209,11 +209,11 @@ docker service create --name elasticsearch --network=elknet \
 ## Kibana
 
 ```shell
-docker service create --name kibana --network=elknet \
+docker service create --name kibana2 \
   --replicas 2 \
-  --publish 5601:5601 \
-  --env  ELASTICSEARCH_URL=http://es:9200 \
-  kibana
+  --publish 5602:5601 \
+  --env  ELASTICSEARCH_URL=http://10.1.2.4:9200 \
+  ifintech/kibana
 ```
 
 ## 统一部署

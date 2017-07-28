@@ -19,7 +19,7 @@ docker swarm join \
 
 显示token cmd
 ```bash
-docker swarm join-token manager
+docker swarm join-token manager|worker
 ```
 
 集群节点

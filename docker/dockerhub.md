@@ -24,7 +24,7 @@
 3. 启动服务
 
    ```shell
-   docker run -d --restart=always --name docker-hub \
+   docker run -d --restart=always --name dockerhub \
    -v /mnt/dockerhub:/var/lib/registry \
    -v /etc/docker/auth:/auth \
    -e "REGISTRY_AUTH=htpasswd" \
