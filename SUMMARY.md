@@ -7,6 +7,7 @@
   * [镜像仓库](docker/dockerhub.md)
   * [实例](docker/example.md)
 * [API Gateway](api-gateway.md)
+* [服务注册/发现](consul.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
   * [异步消息](ipc/mq.md)
@@ -14,9 +15,9 @@
 * [服务治理](服务治理.md)
   * [日志服务](log/日志服务.md)
   * [监控报警](log/监控报警.md)
-  * 服务报告
   * 分布式追踪
-* [服务注册/发现](consul.md)
+  * 服务关系图谱
+  * 服务报告
 * 分布式任务调度
   * 实时任务
   * 定时任务
@@ -27,4 +28,6 @@
   * [数据可视化](stat/数据可视化.md)
   * [数据报表](stat/数据报表.md)
   * [实践案例](stat/example.md)
+
+
 
