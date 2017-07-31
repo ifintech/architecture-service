@@ -59,7 +59,7 @@ docker service create --name dns \
     -p 53:53/udp \
     --replicas 2 \
     --limit-cpu .5 \
-    --limit-memory 128mb \
+    --limit-memory 128m \
     --config source=dns-dnshosts,target=/etc/dnshosts \
     ifintech/dns
 # 重启服务(加入更新配置后)

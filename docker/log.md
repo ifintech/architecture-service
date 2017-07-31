@@ -282,6 +282,12 @@ docker config create wallet-server   /data1/wallet/server.php
 docker service create --name app-wallet \
   --with-registry-auth \
   --replicas 2 \
+  --limit-cpu 2 \
+  --limit-memory 2g \
+  --reserve-cpu 0.1 \
+  --reserve-memory 100m \
+  --update-delay 10s \
+  --update-parallelism 1 \
   --env PHP_RUN_ENV=product \
   --config source=wallet-constant,target=/data1/htdocs/wallet/conf/constant/product.php \
   --config source=wallet-security,target=/data1/htdocs/wallet/conf/security/product.php \
