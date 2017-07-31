@@ -45,4 +45,10 @@ API网关也有一些劣势，它本身是一个新的高可用的组件，需�
 > [kong](https://getkong.org/docs/)
 
 #### 安装部署
+使用docker-compose部署
+```bash
+git clone https://github.com/Mashape/docker-kong
+cd docker-kong/compose/
+docker-compose up
+```
 #### kong插件开发
