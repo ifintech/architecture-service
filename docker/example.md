@@ -15,7 +15,7 @@ nameserver 10.0.4.9 //添加到首行
 ```shell
 curl -sSL https://get.daocloud.io/docker | sh
 ```
-- 使用阿里云加速镜像&更新镜像存储位置
+- 使用阿里云加速镜像&更新镜像存储位置   
 ```shell
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
@@ -27,17 +27,20 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
+
 - init swarm
 ```bash
 docker swarm init --advertise-addr <MANAGER-IP>
 ```
 
-- 添加进集群 
+- join swarm 
 ```bash
 docker swarm join \
 --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
 <MANAGER-IP>:2377
 ```
+
+- 
 
 ### 搭建服务
 
