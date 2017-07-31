@@ -84,7 +84,7 @@ docker service create --name https-gw \
 #### 内部http消息总线
 ```bash
 # 设置配置
-docker config create httpgateway-upstream /data1/openresty/upstream
+docker config create httpgateway-upstream /data1/openresty/upstream.conf
 docker config create httpgateway-www.conf /data1/openresty/www.conf
 docker config create httpgateway-service.json /data1/openresty/service.json
 # 启动服务 2个实例 对外提供80端口http服务
@@ -96,6 +96,8 @@ docker service create --name http-gw \
     --config source=httpgateway-service.json,target=/etc/nginx/service.json \
     --limit-cpu 2 \
     --limit-memory 2048mb \
+    --update-parallelism 1 \
+    --update-delay 5s \
     ifintech/httpgateway
 ```
 ### 代理服务
@@ -112,6 +114,8 @@ docker service create --name out-gateway \
     --replicas 2 \
     --limit-cpu 1 \
     --limit-memory 1024mb \
+    --update-parallelism 1 \
+    --update-delay 5s \
     ifintech/squid
 ```
 
