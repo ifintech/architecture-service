@@ -340,10 +340,4 @@ cd /usr/share/kibana
 
 #### 网络
 
-创建集群私有网络
-
-```shell
-docker network create --driver overlay --subnet 192.168.1.0/24 servicenet
-```
-
 #### 

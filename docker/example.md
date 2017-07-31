@@ -24,8 +24,8 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 "registry-mirrors": ["https://emst96p0.mirror.aliyuncs.com"]
 }
 EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
+
+sudo systemctl start docker
 ```
 
 - init swarm
@@ -40,7 +40,11 @@ docker swarm join \
 <MANAGER-IP>:2377
 ```
 
-- 
+- 创建swarm网络
+
+```shell
+docker network create --driver overlay --subnet 192.168.1.0/24 servicenet
+```
 
 ### 搭建服务
 
