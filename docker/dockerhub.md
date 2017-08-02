@@ -35,7 +35,7 @@
    registry
    ```
 
-   - /mnt/dockerhub  镜像存储的本地路径
+   - `/mnt/dockerhub`  镜像存储的本地路径
 
 4. 配置nginx
 
