@@ -61,26 +61,13 @@ docker service create --name dns \
     --limit-cpu .5 \
     --limit-memory 128m \
     --config source=dns-dnshosts,target=/etc/dnshosts \
+    --update-parallelism 1 \
+    --update-delay 5s \
     ifintech/dns
 # 重启服务(加入更新配置后)
 docker service update dns --force --update-delay 15
 ```
 
-#### 对外nginx服务
-```bash
-# 设置配置
-docker config create openresty-upstream /data1/openresty/upstream.conf
-docker config create openresty-www.conf /data1/openresty/www.conf
-# 启动服务 2个实例 对外提供81端口http服务
-docker service create --name https-gw \
-    -p 81:80 \
-    --replicas 2 \
-    --config source=openresty-upstream,target=/etc/nginx/upstream.conf \
-    --config source=openresty-www.conf,target=/etc/nginx/vhosts/www.conf \
-    --limit-cpu 2 \
-    --limit-memory 2048mb \
-    ifintech/openresty
-```
 #### 内部http消息总线
 ```bash
 # 设置配置
@@ -88,7 +75,7 @@ docker config create httpgateway-upstream /data1/openresty/upstream.conf
 docker config create httpgateway-www.conf /data1/openresty/www.conf
 docker config create httpgateway-service.json /data1/openresty/service.json
 # 启动服务 2个实例 对外提供80端口http服务
-docker service create --name http-gw \
+docker service create --name http-inter \
     -p 80:80 \
     --replicas 2 \
     --config source=httpgateway-upstream,target=/etc/nginx/upstream \

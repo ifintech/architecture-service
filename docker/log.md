@@ -209,11 +209,10 @@ docker service create --name elasticsearch --network=elknet \
 ## Kibana
 
 ```shell
-docker service create --name kibana2 \
-  --replicas 2 \
-  --publish 5602:5601 \
-  --env  ELASTICSEARCH_URL=http://10.1.2.4:9200 \
-  ifintech/kibana
+docker run --name kibana2 \
+  -p 5602:5601 \
+  -e ELASTICSEARCH_URL=http://10.1.2.4:9200 \
+  ifintech/kibana:latest
 ```
 
 ## 统一部署

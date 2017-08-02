@@ -40,9 +40,11 @@
 
 API网关也有一些劣势，它本身是一个新的高可用的组件，需要被开发、部署和管理，同时API网关有可能成为开发的瓶颈。开发者为了暴露新的微服务节点必须更新API网关，把更新网关的流程做的尽量轻量级是很重要的，不然的话，开发者更新网关的时候就要被迫在线等待。尽管它有这些劣势，在实战中，应用使用API网关还是明智的选择！
 
+## 实例
 
-### 选型API网关
-> [kong](https://getkong.org/docs/)
+### API网关
+
+> [Kong](https://getkong.org/docs/)是Mashape开源的高性能高可用API网关和API服务管理层。它基于OpenResty，进行API管理，并提供了插件实现API的AOP。
 
 #### 安装部署
 使用docker-compose部署
@@ -53,9 +55,89 @@ docker-compose up
 ```
 #### kong插件开发
 
+
+
 ### 初级网关
 > 在单体时间或者业务发展初期，我们是不需要api网关的，可能仅仅是需要一个加强版的nginx做http层的负载均衡，统计等等
 
 #### 安装部署
 
+1. 添加配置文件 
 
+   **/data1/openresty/www.conf**
+
+   ```nginx
+   server {
+           listen 80;
+           server_name demo.com;
+           set $app_name demo;
+
+           root /data1/htdocs/demo/public;
+
+           access_log /dev/stdout json;
+           error_log /dev/stderr;
+
+           if ($http_x_forwarded_proto = 'http'){
+               rewrite ^(.*)$ https://$host$1 permanent;
+           }
+
+           location / {
+               fastcgi_pass   demo;
+               fastcgi_index  index;
+               include        fastcgi_params;
+               rewrite ^(.*)$ /index.php$1 break;
+           }
+
+           location ~ /admin {
+               fastcgi_pass   demo;
+               fastcgi_index  index;
+               include        fastcgi_params;
+               rewrite ^(.*)$ /admin.php$1 break;
+           }
+   }
+   ```
+
+   **/data1/openresty/upstream.conf**
+
+   ```nginx
+   upstream demo {
+     server 10.1.2.4:30000 weight=1;
+     server 10.1.2.5:30000 weight=1;
+     server 10.1.2.6:30000 weight=1;
+
+   }
+   ```
+
+2. 添加docker swarm配置
+
+   ```shell
+   docker config create openresty-upstream /data1/openresty/upstream.conf
+   docker config create openresty-www /data1/openresty/www.conf
+   ```
+
+3. 启动服务 对外提供81端口http服务
+
+   ```shell
+   docker service create --name http-exter \
+       -p 81:80 \
+       --replicas 2 \
+       --config source=openresty-upstream,target=/etc/nginx/upstream.conf \
+       --config source=openresty-www,target=/etc/nginx/vhosts/www.conf \
+       --limit-cpu 2 \
+       --limit-memory 2048mb \
+       --update-parallelism 1 \
+       --update-delay 5s \
+       ifintech/openresty
+   ```
+
+4. 更新配置
+
+   ```shell
+   docker service update \
+      --config-add source=openresty-test,target=/etc/nginx/vhosts/test.conf \
+      --config-add source=openresty-upstream-2,target=/etc/nginx/upstream.conf \
+      --config-rm openresty-upstream \
+      http-exter
+   ```
+
+   ​
