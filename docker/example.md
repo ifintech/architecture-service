@@ -3,20 +3,26 @@
 - 申请虚拟云主机 4核16G **centos**系统
 - 初始化主机
 - 更新时区同步时间
+
 ```shell
 cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ```
+
 - 设置内网dns
+
 ```shell
 vim /etc/resolv.conf
-
 nameserver {DNS_IP} #添加到首行
 ```
+
 - 安装docker
+
 ```shell
 curl -sSL https://get.daocloud.io/docker | sh #使用中国镜像安装
 ```
+
 - 使用阿里云加速镜像&更新镜像存储位置   
+
 ```shell
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
@@ -31,11 +37,13 @@ sudo docker -v #查看docker版本 判断安装是否成功
 ```
 
 - init swarm
+
 ```bash
 docker swarm init --advertise-addr <MANAGER-IP>
 ```
 
 - join swarm 
+
 ```bash
 # 显示join-token worker和manager角色拥有不同的join-token
 docker swarm join-token worker|manager
