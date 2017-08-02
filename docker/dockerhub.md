@@ -18,7 +18,7 @@
 
   ```shell
   mkdir /etc/docker/auth
-  docker run --entrypoint htpasswd registry -Bbn [用户名] [密码] > /etc/docker/auth/htpasswd
+  docker run --rm -t --entrypoint htpasswd registry -Bbn [用户名] [密码] > /etc/docker/auth/htpasswd
   ```
 
 3. 启动服务
