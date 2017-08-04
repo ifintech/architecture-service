@@ -28,7 +28,7 @@
    -v /mnt/dockerhub:/var/lib/registry \
    -v /etc/docker/auth:/auth \
    -e REGISTRY_AUTH=htpasswd \
-   -e REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm \
+   -e REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm" \
    -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
    -e REGISTRY_HTTP_ADDR=0.0.0.0:5000 \
    -p 5000:5000 \

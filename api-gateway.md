@@ -121,7 +121,6 @@ docker-compose up
    docker service create --name http-exter \
        -p 81:80 \
        --replicas 2 \
-       --container-label type=http \
        --config source=openresty-upstream,target=/etc/nginx/upstream.conf \
        --config source=openresty-www,target=/etc/nginx/vhosts/www.conf \
        --limit-cpu 2 \
