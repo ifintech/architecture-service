@@ -22,4 +22,6 @@
   * [数据聚合](stat/数据聚合.md)
   * [数据可视化](stat/数据可视化.md)
   * [数据报表](stat/数据报表.md)
+* [实例](example.md)
+  * [azure](example/azure.md)
 
