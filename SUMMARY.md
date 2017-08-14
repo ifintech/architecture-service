@@ -23,5 +23,7 @@
   * [数据可视化](stat/数据可视化.md)
   * [数据报表](stat/数据报表.md)
 * [实例](example.md)
-  * [azure](example/azure.md)
+  * [azure云](example/azure.md)
+  * [aliyun云](example/aliyun.md)
+
 
