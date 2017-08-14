@@ -78,7 +78,7 @@ API网关也有一些劣势，它本身是一个新的高可用的组件，需�
 
 ### [Kong](https://getkong.org)
 
-> Kong是Mashape开源的高性能高可用API网关和API服务管理层。它基于OpenResty，进行API管理，并提供了插件实现API的AOP。相比于orange，kong能够提供一个更细级别的控制。
+> Kong是Mashape开源的高性能高可用API网关和API服务管理层。它基于OpenResty，进行API管理，并提供了插件实现API的AOP。相比于orange，kong能够对API做到更细级别的控制。
 
 #### 安装部署
 使用docker-compose部署
