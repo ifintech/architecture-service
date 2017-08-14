@@ -47,95 +47,25 @@
 * 服务实例自己注册自己也就是self-registration模式。
 * 系统的其他组件管理服务实例的注册，也就是 third-party registration 模式。
 
-Self-Registration模式（在使用）
+Self-Registration模式
 
 当使用self-registration 模式时，服务实例自己负责通过服务注册表对自己进行注册和注销，另外如果有必要的话，服务实例可以通过发送心跳请求防止注册过期，下图展示了该模式的结构：
 
 ![](http://upload-images.jianshu.io/upload_images/3912920-5bd07f6c772a719f.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240)
 
-#### 注册中心选型 consul
+#### 注册中心选型
 
-##### 安装配置consul集群
+1. 使用docker swarm集群的服务注册发现机制，因为这样可以很好的和集群的特性结合起来
 
-```shell
-sudo -s
-wget https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip
-unzip consul_0.7.5_linux_amd64.zip
-mkdir /etc/consul.d
-mkdir -p /data1/consul
-mv consul /bin
+    - 故障转移
+    - 负载均衡
+    - 服务扩容缩容
+    
+1. [consul](https://www.consul.io/)
 
-nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul1 -bind=10.0.4.14 -client=10.0.4.14 -domain=domain -ui >> /data1/consul/run.log 2>&1 &
-nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul2 -bind=10.0.4.15 -client=10.0.4.15 -join=10.0.4.14 -domain=domain -ui >> /data1/consul/run.log 2>&1 &
-nohup consul agent -server -bootstrap-expect=3 -data-dir=/data1/consul -node=sa-consul3 -bind=10.0.4.16 -client=10.0.4.16 -join=10.0.4.14 -domain=domain -ui >> /data1/consul/run.log 2>&1 &
-```
 
-##### client端安装
 
-```shell
-sudo -s
-wget https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip
-unzip consul_0.7.5_linux_amd64.zip
-mkdir /etc/consul.d
-mkdir -p /data1/consul
-mv consul /bin
 
-nohup consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -join=10.0.4.13 -config-file=/etc/consul.d/config.data >> /data1/consul/run.log 2>&1 &
-```
-
-consul配置文件 /etc/consul.d/config.data
-
-consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -join=10.0.4.14 -config-file=/etc/consul.d/config.data &gt;&gt; /data1/consul/run.log 2&gt;&1 &
-
-```shell
-{
-  "service": {
-    "id": "app-contract2",
-    "name": "contract",
-    "address": "10.0.0.4",
-    "port": 9000,
-    "enableTagOverride": false,
-    "checks": [
-      {
-        "id": "fastcgi",
-        "name": "php fastcgi tcp 9000",
-        "tcp": "localhost:9000",
-        "interval": "10s",
-        "timeout": "1s",
-        "deregister_critical_service_after": "5m"
-      }
-    ]
-  },
-  "disable_remote_exec": false
-}
-```
-
-* disable\_remote\_exec 是否禁止远程执行命令 默认true\(视需要情况来打开此选项\)
-
-curl --request PUT --data @config.data [https://10.0.0.4:8500/v1/agent/service/register](https://10.0.0.4:8500/v1/agent/service/register)
-
-```shell
-//通过curl api注册
-{
-  "ID": "app-contract2",
-  "Name": "contract",
-  "Address": "10.0.0.4",
-  "Port": 9000,
-  "EnableTagOverride": false,
-  "Check": {
-    "DeregisterCriticalServiceAfter": "1m",
-    "TCP": "localhost:9000",
-    "Interval": "3s",
-    "TTL": "15s"
-  }
-}
-```
-
-添加服务自启动 vim /etc/rc.local
-
-```shell
-nohup consul agent -data-dir=/data1/consul -node=app-contract2 -bind=10.0.0.4 -join=10.0.4.13 -config-file=/etc/consul.d/config.data >> /data1/consul/run.log 2>&1 &
-```
 
 
 
