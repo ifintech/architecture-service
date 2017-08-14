@@ -64,11 +64,22 @@ docker-compose up
 
 > 在单体时间或者业务发展初期，我们是不需要api网关的，可能仅仅是需要一个加强版的nginx做http层的负载均衡，统计等等
 >
-> [orange](http://orange.sumory.com/docs/)
+> [orange](http://orange.sumory.com/docs/) Orange是一个基于OpenResty的API Gateway，提供API及自定义[规则](http://orange.sumory.com/docs/rule.html)的监控和管理，如访问统计、流量切分、API重定向、API鉴权、WEB防火墙等功能。Orange可用来替代前置机中广泛使用的Nginx/OpenResty， 在应用服务上无痛前置一个功能丰富的网关系统
 
 #### 安装部署
 
+使用docker-compose部署
+
+```bash
+git clone git@github.com:syhily/docker-orange.git
+cd docker-orange
+docker-compose run --service-ports --rm orange
+```
+
+使用外部依赖数据库
+
+```bash
+```
+
 ​
-
-
 
