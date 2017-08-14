@@ -42,9 +42,43 @@ API网关也有一些劣势，它本身是一个新的高可用的组件，需�
 
 ## 实例
 
-### API网关
+### [Orange](http://orange.sumory.com/)
 
-> [Kong](https://getkong.org/docs/)是Mashape开源的高性能高可用API网关和API服务管理层。它基于OpenResty，进行API管理，并提供了插件实现API的AOP。
+> 一个基于OpenResty / Nginx的HTTP API Gateway，提供API及自定义规则的监控和管理，如访问统计、流量切分、API重定向、API鉴权、WEB防火墙等功能。
+
+#### 安装部署
+
+1. 创建**mysql**数据库 `orange`  建立数据表
+
+   > 数据表创建[sql语句](https://github.com/ifintech/dockerhub-base/blob/master/orange/sql/orange.sql)
+
+2. 启动服务
+
+   ```shell
+   docker service create --name gateway \
+   --network servicenet \
+   --replicas 2 \
+   --env DATABASE_HOST={MYSQL_HOST} \
+   --env DATABASE_PORT=3306 \
+   --env DATABASE_NAME=orange \
+   --env DATABASE_USER={MYSQL_USERNAME} \
+   --env DATABASE_PWD={MYSQL_PASSWORD} \
+   --env DASHBOARD_HOST={DASHBOARD_HOSTl} \
+   --limit-cpu 2 \
+   --limit-memory 2048m \
+   --reserve-cpu 0.5 \
+   --reserve-memory 512m \
+   -p 80:80 \
+   ifintech/orange
+   ```
+
+3. 访问后台 `http://DASHBOARD_HOST`  依据需求添加配置
+
+   > 默认用户名：admin 默认密码：orange_admin
+
+### [Kong](https://getkong.org)
+
+> Kong是Mashape开源的高性能高可用API网关和API服务管理层。它基于OpenResty，进行API管理，并提供了插件实现API的AOP。相比于orange，kong能够提供一个更细级别的控制。
 
 #### 安装部署
 使用docker-compose部署
@@ -53,91 +87,3 @@ git clone https://github.com/Mashape/docker-kong
 cd docker-kong/compose/
 docker-compose up
 ```
-#### kong插件开发
-
-
-
-### 初级网关
-> 在单体时间或者业务发展初期，我们是不需要api网关的，可能仅仅是需要一个加强版的nginx做http层的负载均衡，统计等等
-
-#### 安装部署
-
-1. 添加配置文件 
-
-   **/data1/openresty/www.conf**
-
-   ```nginx
-   server {
-           listen 80;
-           server_name demo.com;
-           set $app_name demo;
-
-           root /data1/htdocs/demo/public;
-
-           access_log /dev/stdout json;
-           error_log /dev/stderr;
-
-           if ($http_x_forwarded_proto = 'http'){
-               rewrite ^(.*)$ https://$host$1 permanent;
-           }
-
-           location / {
-               fastcgi_pass   demo;
-               fastcgi_index  index;
-               include        fastcgi_params;
-               rewrite ^(.*)$ /index.php$1 break;
-           }
-
-           location ~ /admin {
-               fastcgi_pass   demo;
-               fastcgi_index  index;
-               include        fastcgi_params;
-               rewrite ^(.*)$ /admin.php$1 break;
-           }
-   }
-   ```
-
-   **/data1/openresty/upstream.conf**
-
-   ```nginx
-   upstream demo {
-     server 10.1.2.4:30000 weight=1;
-     server 10.1.2.5:30000 weight=1;
-     server 10.1.2.6:30000 weight=1;
-
-   }
-   ```
-
-2. 添加docker swarm配置
-
-   ```shell
-   docker config create openresty-upstream /data1/openresty/upstream.conf
-   docker config create openresty-www /data1/openresty/www.conf
-   ```
-
-3. 启动服务 对外提供81端口http服务
-
-   ```shell
-   docker service create --name http-exter \
-       -p 81:80 \
-       --replicas 2 \
-       --config source=openresty-upstream,target=/etc/nginx/upstream.conf \
-       --config source=openresty-www,target=/etc/nginx/vhosts/www.conf \
-       --limit-cpu 2 \
-       --limit-memory 2048mb \
-       --update-parallelism 1 \
-       --update-delay 5s \
-       ifintech/openresty
-   ```
-
-4. 更新配置
-
-   ```shell
-   docker service update \
-      --config-add source=openresty-test,target=/etc/nginx/vhosts/test.conf \
-      --config-add source=openresty-upstream-2,target=/etc/nginx/upstream.conf \
-      --config-rm openresty-upstream \
-      http-exter
-   ```
-
-   ​
