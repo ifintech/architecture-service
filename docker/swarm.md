@@ -7,34 +7,34 @@
 
 - 集群管理集成进Docker Engine
     使用内置的集群管理功能，我们可以直接通过Docker CLI命令来创建Swarm集群，然后去部署应用服务，而不再需要其它外部的软件来创建和管理一个Swarm集群。
-    
+
 - 去中心化设计
     Swarm集群中包含Manager和Worker两类Node，我们可以直接基于Docker Engine来部署任何类型的Node。而且，在Swarm集群运行期间，我们既可以对其作出任何改变，实现对集群的扩容和缩容等，如添加Manager Node，如删除Worker Node，而做这些操作不需要暂停或重启当前的Swarm集群服务。
-    
+
 - 声明式服务模型（Declarative Service Model）
     在我们实现的应用栈中，Docker Engine使用了一种声明的方式，让我们可以定义我们所期望的各种服务的状态，例如，我们创建了一个应用服务栈：一个Web前端服务、一个后端数据库服务、Web前端服务又依赖于一个消息队列服务。
-    
+
 - 服务扩容缩容
     对于我们部署的每一个应用服务，我们可以通过命令行的方式，设置启动多少个Docker容器去运行它。已经部署完成的应用，如果有扩容或缩容的需求，只需要通过命令行指定需要几个Docker容器即可，Swarm集群运行时便能自动地、灵活地进行调整。
-    
+
 - 协调预期状态与实际状态的一致性
     Swarm集群Manager Node会不断地监控集群的状态，协调集群状态使得我们预期状态和实际状态保持一致。例如我们启动了一个应用服务，指定服务副本为10，则会启动10个Docker容器去运行，如果某个Worker Node上面运行的2个Docker容器挂掉了，则Swarm Manager会选择集群中其它可用的Worker Node，并创建2个服务副本，使实际运行的Docker容器数仍然保持与预期的10个一致。
-    
+
 - 多主机网络
     我们可以为待部署应用服务指定一个Overlay网络，当应用服务初始化或者进行更新时，Swarm Manager在给定的Overlay网络中为Docker容器自动地分配IP地址，实际是一个虚拟IP地址（VIP）。
-    
+
 - 服务发现
     Swarm Manager会给集群中每一个服务分配一个唯一的DNS名称，对运行中的Docker容器进行负载均衡。我们可以通过Swarm内置的DNS Server，查询Swarm集群中运行的Docker容器状态。
-    
+
 - 负载均衡
     在Swarm内部，可以指定如何在各个Node之间分发服务容器（Service Container），实现负载均衡。如果想要使用Swarm集群外部的负载均衡器，可以将服务容器的端口暴露到外部。
-    
+
 - 安全策略
     在Swarm集群内部的Node，强制使用基于TLS的双向认证，并且在单个Node上以及在集群中的Node之间，都进行安全的加密通信。我们可以选择使用自签名的根证书，或者使用自定义的根CA（Root CA）证书。
-    
+
 - 滚动更新（Rolling Update）
     对于服务需要更新的场景，我们可以在多个Node上进行增量部署更新，Swarm Manager支持通过使用Docker CLI设置一个delay时间间隔，实现多个服务在多个Node上依次进行部署。这样可以非常灵活地控制，如果有一个服务更新失败，则暂停后面的更新操作，重新回滚到更新之前的版本。
-    
+
 ## 管理Swarm Node
 Swarm支持设置一组Manager Node，通过支持多Manager Node实现HA。那么这些Manager Node之间的状态的一致性就非常重要了，多Manager Node的Warm集群架构，如下图所示（出自Docker官网）：
 ![](https://docs.docker.com/engine/swarm/images/swarm-diagram.png)
@@ -109,4 +109,33 @@ docker service update --image redis:3.2.5-alpine redis
 3. 为更新的任务启动容器。
 4. 如果更新任务时返回RUNNING，等待一个指定的延时后停止下一个任务。
 5. 如果在更新的任意时刻，某个任务返回FAILED，暂停更新。
+
+
+### 实例
+
+- init swarm
+
+```bash
+docker swarm init --advertise-addr <MANAGER-IP>
+```
+
+- join swarm 
+
+```bash
+# 显示join-token worker和manager角色拥有不同的join-token
+docker swarm join-token worker|manager
+
+docker swarm join \
+--token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
+<MANAGER-IP>:2377
+
+# 查看集群节点
+docker node ls
+```
+
+- 创建swarm网络
+
+```shell
+docker network create --driver overlay --subnet 192.168.1.0/24 servicenet
+```
 

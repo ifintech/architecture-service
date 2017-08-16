@@ -60,7 +60,7 @@
 
 **beats**是Elastic Stack下的一套开源数据采集工具。其中**Metricbeat**工具能够收集系统负载、内存、硬盘以及每个进程的情况, 也能深入容器内部进行采集，支持嗅探网络流量, 支持HTTP, Thrift-RPC, Mysql, Redis等协议, 最后将数据送到Logstash或Elasticsearch中, 进行后续的处理。
 
-**部署**
+##### 部署
 
 1. 通过docker swarm启动
 

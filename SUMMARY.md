@@ -7,6 +7,7 @@
   * [镜像仓库](docker/dockerhub.md)
 * [API Gateway](api-gateway.md)
 * [服务注册/发现](consul.md)
+  * [服务发布](service/deploy.md)
 * [服务间通信IPC](ipc.md)
   * [同步请求](ipc/rest.md)
   * [异步消息](ipc/mq.md)

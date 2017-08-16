@@ -180,7 +180,7 @@ docker service create --name logspout \
 
 > **注意**：logstash镜像中已打包了一个[默认的日志解析配置](https://github.com/ifintech/dockerhub-base/blob/master/logstash/logstash.conf)，如果日志格式不同，则需要按需修改配置文件。
 
-1. 给需要运行Elasticsearch的机器打上标签
+1. 指定Elasticsearch运行的机器
 
    > ES的数据是需要永久存储，并且需要在每个节点有独立的存储路径来存储数据。所以我们需要确保es运行在指定的节点上，而不会被调度到其他节点上。
 
@@ -205,8 +205,6 @@ docker service create --name logspout \
    services:
      logstash:
        image: ifintech/logstash
-       ports:
-         - 10514:10514
        networks:
          - servicenet
        volumes:

@@ -1,8 +1,12 @@
 # 镜像仓库
 
->  线上采用docker-registry，线下采用gitlab内置的registry服务
+>  当我们在服务器上部署镜像，我们就需要一个集中的存储、分发镜像的服务，镜像仓库就是这样的服务。
+>
+>  其中我们把公共的应用或组件的镜像存放于公开的镜像仓库服务中(如dockerhub)，而业务相关的镜像存放于私有的镜像仓库服务中。
+>
+>  对于私有的镜像仓库服务，线上采用docker-registry，存储生产镜像；线下采用gitlab内置的registry服务，存储开发镜像。
 
-## registry
+## Registry
 
 > **docker registry**是官方提供的工具，可以用于构建私有的镜像仓库。
 
@@ -37,14 +41,15 @@
 
    - `/mnt/dockerhub`  镜像存储的本地路径
 
-4. 配置nginx
+4. 配置请求转发
 
-   nginx 负责向外提供https的接口, 并转发请求到registry上
+   nginx 负责向外提供https的接口, 并转发请求到registry服务上
 
    ```nginx
+   # 配置示例
    server {
        listen       443;
-       server_name  REGISTRYHOST;
+       server_name  REGISTRY_HOST;
 
        access_log  /var/log/nginx/dockerhub.access.log  main;
        error_log   /var/log/nginx/dockerhub.error.log;
@@ -68,33 +73,16 @@
 ### 使用
 
 - 推送镜像
-
-  ```shell
-  docker tag [IMAGE] [REGISTRYHOST/NAME:TAG]
-  docker push [REGISTRYHOST/NAME:TAG]
-  ```
-
+      docker tag [IMAGE] [REGISTRYHOST/NAME:TAG]
+      docker push [REGISTRYHOST/NAME:TAG]
 - 拉取镜像
-
-  ```shell
-  docker pull [REGISTRYHOST/NAME:TAG]
-  ```
-
+      docker pull [REGISTRYHOST/NAME:TAG]
 - 登录私有仓库
-
-  ```shell
-  docker login [REGISTRYHOST] -u [用户名] -p [密码]
-  ```
-
+      docker login [REGISTRYHOST] -u [用户名] -p [密码]
 - 登出私有仓库
-
-  ```shell
-  docker logout [REGISTRYHOST]
-  ```
-
+      docker logout [REGISTRYHOST]
 - 查看镜像目录
-
-  访问 `https://[REGISTRYHOST]/v2/__catalog`
+  访问 `https://[REGISTRY_HOST]/v2/__catalog`
 
 ### 参考资料
 
