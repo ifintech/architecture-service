@@ -121,9 +121,11 @@ docker swarm init --advertise-addr <MANAGER-IP>
 
 - join swarm 
 
+> 建议集群中有3个及以上的manager节点，这样即使挂掉一个manager节点，整个集群仍然是可用的。
+
 ```bash
 # 显示join-token worker和manager角色拥有不同的join-token
-docker swarm join-token worker|manager
+docker swarm join-token (worker|manager)
 
 docker swarm join \
 --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
@@ -138,4 +140,3 @@ docker node ls
 ```shell
 docker network create --driver overlay --subnet 192.168.1.0/24 servicenet
 ```
-

@@ -16,7 +16,30 @@
 
 ### 镜像仓库
 
-- 设置内网dns
+- [搭建私有镜像仓库](../docker/dockerhub.md#Registry)
+
+> 私有镜像仓库需要绑定一个域名，以便推送及拉取镜像。可以通过搭建内网dns在线上环境解析该域名。
+
+- 搭建内网dns
+
+```shell
+# 定义私有镜像仓库域名解析
+ echo '127.0.0.1 dockerhub.com' >> /data1/dns/etc/dnshosts
+ docker config create dns-dnshosts /data1/dns/etc/dnshosts
+ 
+# 启动服务 2个实例 对外提供53端口dns服务
+ docker service create --name dns \
+     -p 53:53/udp \
+     --replicas 2 \
+     --limit-cpu .5 \
+     --limit-memory 128m \
+     --config source=dns-dnshosts,target=/etc/dnshosts \
+     --update-parallelism 1 \
+     --update-delay 5s \
+     ifintech/dns
+```
+
+- 在服务器上配置内网dns
 
 ```shell
 vim /etc/resolv.conf
@@ -104,7 +127,13 @@ networks:
 **启动**
 
 ```shell
-docker stack deploy --compose-file compose-stack-{APP}.yml --with-registry-auth {APP}
+docker stack deploy {APP} -c compose-stack-{APP}.yml --with-registry-auth
+```
+
+**更新镜像**
+
+```shell
+docker service update {SERVICE_NAME} --image {IMAGE} --with-registry-auth
 ```
 
 #### JAVA应用栈

@@ -2,13 +2,11 @@
 
 >  当我们在服务器上部署镜像，我们就需要一个集中的存储、分发镜像的服务，镜像仓库就是这样的服务。
 >
->  其中我们把公共的应用或组件的镜像存放于公开的镜像仓库服务中(如dockerhub)，而业务相关的镜像存放于私有的镜像仓库服务中。
->
->  对于私有的镜像仓库服务，线上采用docker-registry，存储生产镜像；线下采用gitlab内置的registry服务，存储开发镜像。
+>  我们把公共的应用或组件的镜像存放于公开的镜像仓库服务中(如dockerhub)，而业务相关的镜像则存放于私有的镜像仓库服务中。对于私有的镜像仓库服务，线上采用docker-registry，用来存储生产镜像；线下采用gitlab内置的registry服务，用来存储开发镜像。
 
 ## Registry
 
-> **docker registry**是官方提供的工具，可以用于构建私有的镜像仓库。
+> **docker registry**是官方提供的工具，可以用于构建私有的镜像仓库服务。
 
 ### 搭建
 
@@ -73,14 +71,22 @@
 ### 使用
 
 - 推送镜像
-      docker tag [IMAGE] [REGISTRYHOST/NAME:TAG]
-      docker push [REGISTRYHOST/NAME:TAG]
+  ```shell
+  docker tag [IMAGE_ID] [REGISTRY_HOST/NAME:TAG]
+  docker push [REGISTRY_HOST/NAME:TAG]
+  ```
 - 拉取镜像
-      docker pull [REGISTRYHOST/NAME:TAG]
+  ```shell
+  docker pull [REGISTRY_HOST/NAME:TAG]
+  ```
 - 登录私有仓库
-      docker login [REGISTRYHOST] -u [用户名] -p [密码]
+  ```shell
+  docker login [REGISTRY_HOST] -u [用户名] -p [密码]
+  ```
 - 登出私有仓库
-      docker logout [REGISTRYHOST]
+  ```shell
+  docker logout [REGISTRY_HOST]
+  ```
 - 查看镜像目录
   访问 `https://[REGISTRY_HOST]/v2/__catalog`
 
