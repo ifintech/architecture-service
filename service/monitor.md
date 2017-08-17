@@ -82,9 +82,7 @@
 
    ```shell
    docker run -t --rm \
-   -es http://{ES_HOST}:9200 \
-   -url https://artifacts.elastic.co/downloads/beats/beats-dashboards/beats-dashboards-5.5.0.zip \
-   ifintech/metricbeat ./scripts/import_dashboards
+   ifintech/metricbeat ./scripts/import_dashboards -es http://{ES_HOST}:9200 -url https://artifacts.elastic.co/downloads/beats/beats-dashboards/beats-dashboards-5.5.0.zip
    ```
 
 ## 报警

@@ -48,11 +48,106 @@ nameserver {DNS_IP} #添加到首行
 
 ### HTTP网关
 
+- [**部署orange**](../api-gateway.md)
+
+  需要部署两个网关，分为应用网关及sa网关。应用网关公开80端口负责处理应用的流量，sa网关负责处理服务管理的流量，并限制访问ip。
+
+- 配置orange
+
+  1. 配置外网请求代理(*示例* 将http://demo.com的请求全部转发到demo_nginx的服务上)
+
+     ![WX20170817-171125@2x](https://ws2.sinaimg.cn/large/006tNc79ly1fimup9cw8bj315s0mgabt.jpg)
+
+     ![WX20170817-172803@2x](https://ws4.sinaimg.cn/large/006tKfTcly1fimupaob7lj315o0rignx.jpg)
+
+  2. 配置内网请求代理(示例 转发http://gateway/demo/*的请求到demo_nginx的服务上)
+
+     > **注意**：此配置在转发时不会带上query参数
+
+     ![WX20170817-171621@2x](https://ws4.sinaimg.cn/large/006tKfTcly1fimupa85tuj315s0meaby.jpg)
+
+     ![WX20170817-173001@2x](https://ws3.sinaimg.cn/large/006tKfTcly1fimup9q133j315q0tyjtz.jpg)
+
+  3. 配置访问限制
+
 ### 日志服务
 
 ### 监控服务
 
-### Auth服务
+### 认证服务
+
+> 向外提供ldap及二步认证服务
+
+**服务编排模板**
+
+```yaml
+version: "3.2"
+
+services:
+  ldap:
+    image: ifintech/ldap2http
+    ports:
+      - "10389:10389"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 10389
+      AUTH_URL: http://auth_nginx
+      AUTH_TOKEN: {AUTH_SECRET}
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 50M
+      update_config:
+        parallelism: 1
+        delay: 30s
+    networks:
+      - servicenet
+  php:
+    image: dockerhub.jrmf360.com/sa/auth
+    command: php-fpm
+    environment:
+      RUN_ENV: product
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 50M
+      update_config:
+        parallelism: 1
+        delay: 30s
+    networks:
+      - servicenet
+  nginx:
+    image: ifintech/nginx-php
+    networks:
+      - servicenet
+    environment:
+      APP_NAME: auth
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 50M
+      update_config:
+        parallelism: 1
+        delay: 30s
+networks:
+  servicenet:
+    external: true
+```
 
 ### 应用栈
 
