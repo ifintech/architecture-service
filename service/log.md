@@ -8,7 +8,7 @@
 >
 > 另外为了方便日志的解析处理, 推荐日志使用**json**的格式进行记录和传输.
 
-#### 应用(PHP)日志字典
+#### PHP日志字典
 
 | 字段            | 说明                |
 | ------------- | ----------------- |
@@ -58,7 +58,7 @@
 
 纵览当前容器日志收集的场景，无非两种方式：一是直接采集Docker标准输出，容器内的服务将日志信息写到标准输出，再将Docker的标准输出发送到相应的收集程序中；二是延续传统的日志写入方式，容器内的服务将日志直接写到普通文件中，通过Docker volume将日志文件映射到Host上，日志采集程序就可以收集它。
 
-Docker官方建议采用使用标准输出来记录日志，这种方式也符合`一容器一个服务`的使用方式；同时也足够简单清晰，能够统一所有服务中日志的记录方式，方便接入日志服务，无需额外依赖。
+Docker官方建议采用使用标准输出来记录日志，这种方式也符合**一容器一个服务**的使用方式；同时也足够简单清晰，能够统一所有服务中日志的记录方式，方便接入日志服务，无需额外依赖。
 
 #### [Logspout](https://github.com/gliderlabs/logspout)
 
@@ -142,8 +142,6 @@ Kibana是一个Elasticsearch数据分析和可视化的开源平台，使用Kiba
 #### Terminal
 
 提供一个终端界面，可以访问、查询落地的日志，操作方法同使用终端一致。
-
-**方案**
 
 在日志机上运行容器，把日志目录以只读挂载进去，并向外提供ssh接入的端口。用户通过终端连接到容器里，查看日志。此种方案可以隔离应用日志，方便管理日志。
 
@@ -278,7 +276,7 @@ docker service create --name logspout \
    启动
 
    ```shell
-   docker stack deploy log --compose-file compose-stack-log.yml
+   docker stack deploy log -c compose-stack-log.yml
    ```
 
 4. 验证
@@ -289,11 +287,6 @@ docker service create --name logspout \
      curl -v 'http://{HOST_IP}:9200/_cluster/health?pretty' #查看集群状态
      ```
 
-   - Kibana
-
-     ```shell
-     curl -I 'http://{HOST_IP}:5601' #返回200即代表安装成功
-     ```
 
 ##  参考资料
 

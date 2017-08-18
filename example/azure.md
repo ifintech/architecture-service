@@ -4,15 +4,19 @@
 
 1. 申请虚拟云主机(4核16G **centos**系统)并初始化
 
-2. 更新时区同步时间 
+2. 更新时区 同步时间 
 
    ```shell
    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
    ```
 
-3. [安装docker](../docker/docker.md#安装Docker)
+3. [挂载硬盘](https://docs.azure.cn/zh-cn/virtual-machines/linux/add-disk?toc=%2fvirtual-machines%2flinux%2ftoc.json)
 
-4. [创建Swarm集群](../docker/swarm.md#实例)
+   因主机上需要存储docker镜像及其他落地的数据，而主机自带的存储空间不大，需按需来挂载数据磁盘。
+
+4. [安装docker](../docker/docker.md#安装Docker)
+
+5. [创建Swarm集群](../docker/swarm.md#实例)
 
 ### 镜像仓库
 
@@ -39,28 +43,38 @@
      ifintech/dns
 ```
 
-- 在服务器上配置内网dns
+- 在所有节点上配置内网dns
 
 ```shell
 vim /etc/resolv.conf
 nameserver {DNS_IP} #添加到首行
 ```
 
+- 在master节点上登录私有镜像仓库
+
+```shell
+docker login [REGISTRY_HOST] -u [用户名] -p [密码]
+```
+
 ### HTTP网关
 
-- [**部署orange**](../api-gateway.md)
+- [部署orange](../api-gateway.md)
 
   需要部署两个网关，分为应用网关及sa网关。应用网关公开80端口负责处理应用的流量，sa网关负责处理服务管理的流量，并限制访问ip。
 
+- [申请负载均衡](https://docs.azure.cn/zh-cn/load-balancer/load-balancer-get-started-ilb-arm-portal)
+
+  负载均衡与网关一一对应，连接到网关的80/81端口，并探测后端网关节点的健康情况。这样即使有节点宕掉，也不会影响整体Web服务的可用性。
+
 - 配置orange
 
-  1. 配置外网请求代理(*示例* 将http://demo.com的请求全部转发到demo_nginx的服务上)
+  1. 配置外网请求代理(示例：将http://demo.com的请求全部转发到demo_nginx的服务上)
 
      ![WX20170817-171125@2x](https://ws2.sinaimg.cn/large/006tNc79ly1fimup9cw8bj315s0mgabt.jpg)
 
      ![WX20170817-172803@2x](https://ws4.sinaimg.cn/large/006tKfTcly1fimupaob7lj315o0rignx.jpg)
 
-  2. 配置内网请求代理(示例 转发http://gateway/demo/*的请求到demo_nginx的服务上)
+  2. 配置内网请求代理(示例：转发http://gateway/demo/*的请求到demo_nginx的服务上)
 
      > **注意**：此配置在转发时不会带上query参数
 
@@ -68,11 +82,30 @@ nameserver {DNS_IP} #添加到首行
 
      ![WX20170817-173001@2x](https://ws3.sinaimg.cn/large/006tKfTcly1fimup9q133j315q0tyjtz.jpg)
 
-  3. 配置访问限制
+  3. 配置访问限制 (限制/admin的路由只能由限定的ip访问)
+
+     ![WX20170818-152000@2x](https://ws3.sinaimg.cn/large/006tNc79ly1finwtdu2olj315e0m2myz.jpg)
+
+     ![WX20170818-152356@2x](https://ws2.sinaimg.cn/large/006tNc79ly1finwtcwls9j313a0jsgnc.jpg)
 
 ### 日志服务
 
+1. [部署日志服务](../service/log.md#实例)
+
+   > 如果日志格式不同或日志的处理方式有异，则需要自定义logstash的配置文件，重新打包logstash镜像。
+
+2. 在SA网关为kibana添加代理配置
+
+   ![WX20170818-112612@2x](https://ws4.sinaimg.cn/large/006tNc79ly1finwtf0eogj315q0maq4o.jpg)
+
+   ![WX20170818-112826@2x](https://ws4.sinaimg.cn/large/006tNc79ly1finwtfv6wcj313a0r0wgl.jpg)
+
 ### 监控服务
+
+1. [部署beats](../service/monitor.md#Beats)
+2. [部署服务管理中心](https://github.com/ifintech/service)
+3. 在监控报警控制台，添加报警规则及报警组
+4. 绑定报警检测脚本
 
 ### 认证服务
 
@@ -232,3 +265,11 @@ docker service update {SERVICE_NAME} --image {IMAGE} --with-registry-auth
 ```
 
 #### JAVA应用栈
+
+### 任务调度
+
+> **注意**：通过此方式调度的任务无法连接swarm network，故无法直接访问swarm网络中的服务。
+
+- [部署任务调度agent](https://github.com/ifintech/job) (为了保证高可用，需要至少双机部署)
+- [部署任务调度服务端](https://github.com/ifintech/service)(已与服务管理中心后台整合 无需重复部署)
+- 在后台按需添加定时任务及一次性任务
