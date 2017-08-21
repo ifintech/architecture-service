@@ -16,7 +16,7 @@
 
 4. [安装docker](../docker/docker.md#安装Docker)
 
-5. [创建Swarm集群](../docker/swarm.md#实例)
+5. [创建Swarm集群](../docker/swarm.md#使用)
 
 ### 镜像仓库
 
@@ -68,13 +68,13 @@ docker login [REGISTRY_HOST] -u [用户名] -p [密码]
 
 - 配置orange
 
-  1. 配置外网请求代理(示例：将http://demo.com的请求全部转发到demo_nginx的服务上)
+  1. 配置外网请求代理(示例：将`http://demo.com`的请求全部转发到demo_nginx的服务上)
 
      ![WX20170817-171125@2x](https://ws2.sinaimg.cn/large/006tNc79ly1fimup9cw8bj315s0mgabt.jpg)
 
      ![WX20170817-172803@2x](https://ws4.sinaimg.cn/large/006tKfTcly1fimupaob7lj315o0rignx.jpg)
 
-  2. 配置内网请求代理(示例：转发http://gateway/demo/*的请求到demo_nginx的服务上)
+  2. 配置内网请求代理(示例：转发`http://gateway/demo/*`的请求到demo_nginx的服务上)
 
      > **注意**：此配置在转发时不会带上query参数
 
@@ -82,7 +82,7 @@ docker login [REGISTRY_HOST] -u [用户名] -p [密码]
 
      ![WX20170817-173001@2x](https://ws3.sinaimg.cn/large/006tKfTcly1fimup9q133j315q0tyjtz.jpg)
 
-  3. 配置访问限制 (限制/admin的路由只能由限定的ip访问)
+  3. 配置访问限制 (限制`/admin`的路由只能由限定的ip访问)
 
      ![WX20170818-152000@2x](https://ws3.sinaimg.cn/large/006tNc79ly1finwtdu2olj315e0m2myz.jpg)
 
@@ -100,12 +100,15 @@ docker login [REGISTRY_HOST] -u [用户名] -p [密码]
 
    ![WX20170818-112826@2x](https://ws4.sinaimg.cn/large/006tNc79ly1finwtfv6wcj313a0r0wgl.jpg)
 
+3. 访问kibana，初始化kibana。
+
 ### 监控服务
 
 1. [部署beats](../service/monitor.md#Beats)
 2. [部署服务管理中心](https://github.com/ifintech/service)
-3. 在监控报警控制台，添加报警规则及报警组
-4. 绑定报警检测脚本
+3. 在SA网关为服务管理中心添加代理配置(配置方法同上)
+4. 在监控报警控制台，添加报警规则及报警组
+5. 绑定报警检测脚本
 
 ### 认证服务
 
