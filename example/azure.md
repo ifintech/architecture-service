@@ -88,6 +88,24 @@ docker login [REGISTRY_HOST] -u [用户名] -p [密码]
 
      ![WX20170818-152356@2x](https://ws2.sinaimg.cn/large/006tNc79ly1finwtcwls9j313a0jsgnc.jpg)
 
+### 出口网关
+
+> 如果集群中的机器无法访问外网或某些依赖的外部服务有访问限制，必须以固定ip去访问，在此时就需要一个出口网关，负责代理那些外网流量。
+
+1. 部署squid
+
+```shell
+docker service create --name out-gateway \
+-p 3128:3128 \
+--mount type=bind,src=/srv/docker/squid/cache,dst=/var/spool/squid3 \
+--replicas 2 \
+--limit-cpu 0.5 \
+--limit-memory 512mb \
+ifintech/squid
+```
+
+2. 代理地址为`http://{HOST_IP}:3128`
+
 ### 日志服务
 
 1. [部署日志服务](../service/log.md#实例)
