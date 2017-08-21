@@ -228,7 +228,7 @@ docker service create --name logspout \
        networks:
          - servicenet
        environment:
-         SERVICE_NAME: elasticsearch
+         SERVICE_NAME: log_elasticsearch
          discovery.zen.minimum_master_nodes: 3
          path.data: /usr/share/elasticsearch/data
        volumes:
@@ -255,7 +255,7 @@ docker service create --name logspout \
        networks:
          - servicenet
        environment:
-         ELASTICSEARCH_URL: http://elasticsearch:9200
+         ELASTICSEARCH_URL: http://log_elasticsearch:9200
        deploy:
          replicas: 2
          resources:

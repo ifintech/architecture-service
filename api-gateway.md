@@ -63,7 +63,7 @@ API网关也有一些劣势，它本身是一个新的高可用的组件，需�
    --env DATABASE_NAME=orange \
    --env DATABASE_USER={MYSQL_USERNAME} \
    --env DATABASE_PWD={MYSQL_PASSWORD} \
-   --env DASHBOARD_HOST={DASHBOARD_HOSTl} \
+   --env DASHBOARD_HOST={DASHBOARD_HOST} \
    --limit-cpu 2 \
    --limit-memory 2048m \
    --reserve-cpu 0.5 \
