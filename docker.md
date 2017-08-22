@@ -40,9 +40,10 @@ swarm有以下好处
 
 - 滚动更新（Rolling Update）
 
-- 其他
+## 容器集群服务整体架构
+> 使用rancher catalog来说明
 
-## 
+![](/images/rancher.jpeg)
 
 
 
