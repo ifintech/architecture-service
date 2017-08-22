@@ -16,7 +16,7 @@ Docker在容器的基础上，进行了进一步的封装，从文件系统、�
 - 完整的生态系统
 
 
-### 集群编排调度 *SWRAM*
+### 集群编排调度 *SWARM*
 
 > A swarm is a cluster of Docker engines, or nodes, where you deploy services. The Docker Engine CLI and API include commands to manage swarm nodes (e.g., add or remove nodes), and deploy and orchestrate services across the swarm.
 
