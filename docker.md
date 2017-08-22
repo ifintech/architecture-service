@@ -1,8 +1,6 @@
 # 服务容器&集群
 
-> 
-
-### 容器
+### 容器 *docker*
 Docker在容器的基础上，进行了进一步的封装，从文件系统、网络互联到进程隔离等等，极大的简化了容器的创建和维护。使得Docker技术比虚拟机技术更为轻便、快捷。
 
 ![](https://yeasy.gitbooks.io/docker_practice/content/introduction/_images/docker.png)
@@ -44,7 +42,7 @@ swarm有以下好处
 
 - 其他
 
-
+## 
 
 
 
