@@ -43,7 +43,7 @@ swarm有以下好处
 ## 容器集群服务整体架构
 > 使用rancher catalog来说明
 
-![](/images/rancher.jpeg)
+![](images/rancher.jpeg)
 
 
 
@@ -54,7 +54,7 @@ swarm有以下好处
 
 
 
-  
+
   
 
 

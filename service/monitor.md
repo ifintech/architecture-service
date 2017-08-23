@@ -85,6 +85,8 @@
    ifintech/metricbeat ./scripts/import_dashboards -es http://{ES_HOST}:9200 -url https://artifacts.elastic.co/downloads/beats/beats-dashboards/beats-dashboards-5.5.0.zip
    ```
 
+
+
 ## 报警
 
 报警服务提供监控数据的报警功能。通过设置报警规则来定义报警系统如何检查监控数据，并在监控数据满足报警条件时发送报警通知。通过对重要的监控指标设置报警规则，可以在第一时间得知指标数据发生异常，迅速处理故障。
