@@ -287,6 +287,65 @@ docker service update {SERVICE_NAME} --image {IMAGE} --with-registry-auth
 
 #### JAVA应用栈
 
+**服务编排模板**
+
+```yaml
+version: "3.2"
+
+services:
+  api:
+    image: {IMAGE_ADDRESS}
+    networks:
+      - servicenet
+    environment:
+      RUN_ENV: product
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 250M
+      update_config:
+        parallelism: 1
+        delay: 30s
+  core:
+    image: {IMAGE_ADDRESS}
+    networks:
+      - servicenet
+    environment:
+      RUN_ENV: product
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 250M
+      update_config:
+        parallelism: 1
+        delay: 30s
+networks:
+  servicenet:
+    external: true
+```
+
+**启动**
+
+```shell
+docker stack deploy {APP} -c compose-stack-{APP}.yml --with-registry-auth
+```
+
+**更新镜像**
+
+```shell
+docker service update {SERVICE_NAME} --image {IMAGE} --with-registry-auth
+```
+
 ### 任务调度
 
 > **注意**：通过此方式调度的任务无法连接swarm network，故无法直接访问swarm网络中的服务。
