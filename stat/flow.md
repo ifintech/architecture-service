@@ -20,8 +20,8 @@
 
 > 应用的数据将会以各种形式存储在多种数据库中，如**mysql**、**redis**等。当需要依托应用数据进行数据统计时，就需要将数据同步到数据仓库中。
 
-- [**logstash-input-jdbc**](https://github.com/logstash-plugins/logstash-input-jdbc)         logstash插件 官方推荐
-- [**go-mysql-elasticsearch**](https://github.com/siddontang/go-mysql-elasticsearch)  开源工具 支持数据的全量同步及增量同步
+- [**go-mysql-elasticsearch**](https://github.com/siddontang/go-mysql-elasticsearch)  开源工具 基于binlog实现 
+- [**logstash-input-jdbc**](https://github.com/logstash-plugins/logstash-input-jdbc)         logstash插件 基于对查询数据库实现
 
 ### 文件
 
