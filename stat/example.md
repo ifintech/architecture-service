@@ -128,7 +128,8 @@
 
   ```shell
   #示例
-  docker run --rm -v /tmp:/tmp ifintech/phantomjs http://www.baidu.com /tmp/screen_shot.png
+  docker run --rm -v /tmp:/tmp ifintech/phantomjs-screenshot \
+  http://www.baidu.com /tmp/screen_shot.png
   ```
 
 - 将截图文件备份&发送邮件
