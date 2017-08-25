@@ -39,9 +39,9 @@
 
 已与[**服务管理中心**](https://github.com/ifintech/service)整合，登录后台便可查看每个服务的实时报表，支持回溯。
 
-![WX20170825-161212@2x](/Users/morenpeng/Downloads/WX20170825-161212@2x.png)
+![WX20170825-161212@2x](https://ws2.sinaimg.cn/large/006tNc79ly1fiw2uovwioj31kw0rlae7.jpg)
 
-![WX20170825-161248@2x](/Users/morenpeng/Downloads/WX20170825-161248@2x.png)
+![WX20170825-161248@2x](https://ws3.sinaimg.cn/large/006tNc79ly1fiw2uptx1bj31kw0o242h.jpg)
 
 ### 离线报表
 
