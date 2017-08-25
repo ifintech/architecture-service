@@ -62,30 +62,19 @@
 
 ##### 部署
 
-1. 通过docker swarm启动
-
-   ```shell
-   docker service create --name metricbeat \
-     --mode global \
-     --limit-cpu .5 \
-     --limit-memory 128m \
-     --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-     --mount type=bind,src=/proc,dst=/hostfs/proc,ro=true \
-     --mount type=bind,src=/sys/fs/cgroup,dst=/hostfs/sys/fs/cgroup,ro=true \
-     --mount type=bind,src=/,dst=/hostfs,ro=true \
-     --env ES={ES_HOST}:9200 \
-     --network host \
-     ifintech/metricbeat
-   ```
-
-2. 导入可视化模板到kibana中
-
-   ```shell
-   docker run -t --rm \
-   ifintech/metricbeat ./scripts/import_dashboards -es http://{ES_HOST}:9200 -url https://artifacts.elastic.co/downloads/beats/beats-dashboards/beats-dashboards-5.5.0.zip
-   ```
-
-
+```shell
+docker service create --name metricbeat \
+  --mode global \
+  --limit-cpu .5 \
+  --limit-memory 128m \
+  --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  --mount type=bind,src=/proc,dst=/hostfs/proc,ro=true \
+  --mount type=bind,src=/sys/fs/cgroup,dst=/hostfs/sys/fs/cgroup,ro=true \
+  --mount type=bind,src=/,dst=/hostfs,ro=true \
+  --env ES={ES_HOST}:9200 \
+  --network host \
+  ifintech/metricbeat
+```
 
 ## 报警
 
@@ -121,7 +110,11 @@
   - 报警用户管理
   - 报警记录
 
-### [报警控制台](https://github.com/ifintech/service)
+### 报警控制台
 
-日志服务及监控服务统一将数据统一存储在Elasticsearch中，而报警控制台通过Elasticsearch的查询聚合的功能来获取需要的监控指标。报警规则支持Elasticsearch已有的查询聚合方法，支持按多种维度对监控数据进行监测。
+> 日志服务及监控服务统一将数据统一存储在Elasticsearch中，而报警控制台通过Elasticsearch查询聚合的功能来获取需要的监控指标。其报警规则支持Elasticsearch已有的查询聚合方法，支持按多种维度对监控数据进行监测。
+
+报警控制台已与[**服务管理中心**](https://github.com/ifintech/service)整合, 其部署方案详见项目主页。
+
+
 
