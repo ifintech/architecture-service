@@ -106,7 +106,7 @@
 
 ## 数据报表
 
-### 系统报表
+### 实时报表
 
 > 通过**iframe**的形式嵌入报表到自有系统中
 
@@ -124,41 +124,14 @@
 
 > 定时调用**phantomjs**对相应报表进行截图保存，再进行后续处理（发送邮件、备份等）。
 
-1. 安装phantomjs
+- 截图
 
-```shell
-wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
-tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/share/
-mv /usr/share/phantomjs-2.1.1-linux-x86_64 /usr/share/phantomjs
-yum install fontconfig
-yum install bitmap-fonts bitmap-fonts-cjk
-```
+  ```shell
+  #示例
+  docker run --rm -v /tmp:/tmp ifintech/phantomjs http://www.baidu.com /tmp/screen_shot.png
+  ```
 
-2. 添加截图脚本文件 **webpageshot.js**
+- 将截图文件备份&发送邮件
 
-```javascript
-var system = require('system');
-var page = require('webpage').create();
-var address = system.args[1];
-var output = system.args[2];
-
-page.viewportSize = {width: 1366, height: 600};
-page.open(address, function (status) {
-    if (status !== 'success') {
-        console.log('Unable to load the address!');
-        phantom.exit();
-    } else {
-        window.setTimeout(function () {
-            page.render(output);
-            phantom.exit();
-        }, 30000);
-    }
-});
-```
-
-3. 执行
-
-```shell
-/usr/share/phantomjs/bin/phantomjs webpageshot.js {url} {pic_path}
-```
+- 通过**任务调度服务**绑定此任务
 
