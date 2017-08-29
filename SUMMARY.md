@@ -26,4 +26,5 @@
   * [aliyun云](example/aliyun.md)
   * [compose](example/compose.md)
     * [stack-log.yml](example/log.md)
+    * [stack-auth.yml](example/auth.md)
 
