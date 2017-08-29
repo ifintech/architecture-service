@@ -28,4 +28,4 @@
 * 安全
 
 ### 系统架构图
-![](/images/整体架构.png)
+![](http://on-img.com/chart_image/5965c5d7e4b068b0a2445177.png)
