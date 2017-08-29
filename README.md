@@ -29,3 +29,7 @@
 
 ### 系统架构图
 ![](http://on-img.com/chart_image/5965c5d7e4b068b0a2445177.png)
+
+
+### 基于docker swarm的整体部署方案
+
