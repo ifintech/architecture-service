@@ -21,7 +21,7 @@
 * [数据统计](stat.md)
   * [统计流程](stat/flow.md)
   * [实例](stat/example.md)
-* [实例](example.md)
+* [部署方案](example.md)
   * [azure云](example/azure.md)
   * [aliyun云](example/aliyun.md)
 
