@@ -42,7 +42,7 @@ API网关也有一些劣势，它本身是一个新的高可用的组件，需�
 
 ## 选型
 
-### [Orange](http://orange.sumory.com/)
+### [Orange](http://orange.sumory.com/) 初期首选
 
 > 一个基于OpenResty / Nginx的HTTP API Gateway，提供API及自定义规则的监控和管理，如访问统计、流量切分、API重定向、API鉴权、WEB防火墙等功能。
 

@@ -5,7 +5,7 @@
   * [服务容器](docker/docker.md)
   * [服务编排/调度](docker/swarm.md)
   * [镜像仓库](docker/dockerhub.md)
-* [API Gateway](api-gateway.md)
+* [HTTP Gateway](api-gateway.md)
 * [服务注册/发现](consul.md)
   * [服务发布](service/deploy.md)
 * [服务间通信IPC](ipc.md)
@@ -24,5 +24,4 @@
 * [实例](example.md)
   * [azure云](example/azure.md)
   * [aliyun云](example/aliyun.md)
-
 
