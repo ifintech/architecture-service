@@ -25,5 +25,5 @@
   * [azure云](example/azure.md)
   * [aliyun云](example/aliyun.md)
   * [compose](example/compose.md)
-    * [compose-stack-log.yml](example/log.md)
+    * [stack-log.yml](example/log.md)
 

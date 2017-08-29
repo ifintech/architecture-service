@@ -19,9 +19,36 @@
 
 > 使用阿里云自带镜像仓库，设置密码，创建私有本地镜像仓库
 
-#### 外部HTTP网关
+#### HTTP网关
 
-#### 内部HTTP网关
+1. 创建**mysql**数据库 `orange`  建立数据表
+
+   > 数据表创建[sql语句](https://github.com/ifintech/dockerhub-base/blob/master/orange/sql/orange.sql)
+
+2. 启动服务
+
+   ```shell
+   docker service create --name gateway \
+   --network servicenet \
+   --replicas 2 \
+   --env DATABASE_HOST={MYSQL_HOST} \
+   --env DATABASE_PORT=3306 \
+   --env DATABASE_NAME=orange \
+   --env DATABASE_USER={MYSQL_USERNAME} \
+   --env DATABASE_PWD={MYSQL_PASSWORD} \
+   --env DASHBOARD_HOST={DASHBOARD_HOST} \
+   --limit-cpu 2 \
+   --limit-memory 2048m \
+   --reserve-cpu 0.5 \
+   --reserve-memory 512m \
+   -p 80:80 \
+   ifintech/orange
+   ```
+
+3. 访问后台 `http://DASHBOARD_HOST`  依据需求添加配置
+
+   > 默认用户名：admin 默认密码：orange_admin
+
 
 #### 日志服务
 
@@ -44,7 +71,7 @@
 
 3. 以**stack**方式启动服务
 
-   添加配置文件 **compose-stack-log.yml**
+   添加配置文件 **[compose-stack-log.yml](log.md)**
 
    启动
 
@@ -60,11 +87,25 @@
      curl -v 'http://{HOST_IP}:9200/_cluster/health?pretty' #查看集群状态
      ```
 
-
-
-
-
 #### 监控服务
+
+资源采集端metricbeat
+
+```shell
+docker service create --name metricbeat \
+  --mode global \
+  --limit-cpu .5 \
+  --limit-memory 128m \
+  --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  --mount type=bind,src=/proc,dst=/hostfs/proc,ro=true \
+  --mount type=bind,src=/sys/fs/cgroup,dst=/hostfs/sys/fs/cgroup,ro=true \
+  --mount type=bind,src=/,dst=/hostfs,ro=true \
+  --env ES={ES_HOST}:9200 \
+  --network host \
+  ifintech/metricbeat
+```
+监控报警服务端 集合到整体服务后台里
+
 
 #### 认证服务
 
