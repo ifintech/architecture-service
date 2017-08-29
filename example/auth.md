@@ -19,11 +19,11 @@ services:
       replicas: 2
       resources:
         limits:
-          cpus: '0.5'
-          memory: 256M
+          cpus: '1'
+          memory: 512M
         reservations:
           cpus: '0.1'
-          memory: 50M
+          memory: 100M
       update_config:
         parallelism: 1
         delay: 30s
@@ -38,11 +38,11 @@ services:
       replicas: 2
       resources:
         limits:
-          cpus: '0.5'
-          memory: 256M
+          cpus: '1'
+          memory: 512M
         reservations:
           cpus: '0.1'
-          memory: 50M
+          memory: 100M
       update_config:
         parallelism: 1
         delay: 30s
