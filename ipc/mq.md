@@ -13,8 +13,3 @@
 ### 技术选型
 
 阿里云消息队列 开源对应[RocketMQ](https://help.aliyun.com/document_detail/29532.html?spm=5176.7946988.229208.1.YJ6WR3) 
-
-## 消息规范
-
-#### 消息格式
-#### 消息约定

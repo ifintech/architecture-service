@@ -24,4 +24,6 @@
 * [部署方案](example.md)
   * [azure云](example/azure.md)
   * [aliyun云](example/aliyun.md)
+  * [compose](example/compose.md)
+    * [log](example/log.md)
 
