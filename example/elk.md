@@ -19,8 +19,8 @@
              cpus: '2'
              memory: 2G
            reservations:
-             cpus: '.1'
-             memory: 100M
+             cpus: '.5'
+             memory: 126M
          update_config:
            parallelism: 1
            delay: 30s
@@ -48,7 +48,7 @@
              cpus: '1'
              memory: 4G
            reservations:
-             cpus: '.1'
+             cpus: '.5'
              memory: 1G
          update_config:
            parallelism: 1
