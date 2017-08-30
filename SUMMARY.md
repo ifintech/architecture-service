@@ -27,4 +27,6 @@
   * [compose](example/compose.md)
     * [stack-log.yml](example/log.md)
     * [stack-auth.yml](example/auth.md)
+    * [stack-service.yml](example/service.md)
+
 

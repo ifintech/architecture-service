@@ -1,6 +1,6 @@
 # 部署方案
 
-### 网络规划
+## 网络规划
 
 申请阿里云VPS，建议网段10.0.0.0/8
 - 划分路由器10.0.1.0/24为服务集群网段
@@ -19,25 +19,25 @@
 - 服务集群
 - 每个业务集群
 
-### 集群构建
+## 集群构建
 
 > 可以通过阿里云的界面申请
 
 1. 网络区域选择VPS所在的区域，选择对应的专有网络，选择swarm mode
-1. 节点选择虚拟云主机(系列3，2核16G500G硬盘 **centos**系统)，实例数据量最好大于6台，数据盘选择200G以上，不保留公网IP
+1. 节点选择虚拟云主机(系列3，2核16G500G硬盘 **centos**系统)，实例数据量最好大于4台，数据盘选择200G以上，不保留公网IP
 
-可以分为三个集群
+可以分为三个以上集群
 - 服务集群
 - 接入层集群
-- 业务集群（可以按大业务线拆分更多集群）
+- 业务集群（可以按业务线拆分更多集群）
 
-### 服务构建
+## 服务构建
 
 #### 镜像仓库
 
 > 使用阿里云自带镜像仓库，设置密码，创建私有本地镜像仓库
 
-#### HTTP网关
+#### HTTP 业务网关
 
 1. 创建**mysql**数据库 `orange`  建立数据表
 
@@ -48,7 +48,7 @@
    ```shell
    docker service create --name gateway \
    --network servicenet \
-   --replicas 2 \
+   --replicas 3 \
    --env DATABASE_HOST={MYSQL_HOST} \
    --env DATABASE_PORT=3306 \
    --env DATABASE_NAME=orange \
@@ -129,14 +129,25 @@ docker service create --name metricbeat \
 
 > 提供内部员工的认证服务标配OTP 支持ldap和http接入
 
+1. 以**stack**方式启动服务
 
-#### 数据统计
+   添加配置文件 **[compose-stack-auth.yml](auth.md)**
+
+   启动
+
+   ```shell
+   docker stack deploy auth -c compose-stack-auth.yml
+   ```
+
+2. 验证
 
 #### 整体服务后台
 
-### 业务构建
+#### 数据统计
 
-### 存储服务
+## 业务构建
+
+## 存储服务
 
 尽量使用云平台提供的云服务方案，比如mysql,redis。不自行搭建存储。
 

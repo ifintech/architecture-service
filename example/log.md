@@ -71,8 +71,5 @@
          update_config:
            parallelism: 1
            delay: 10s
-   networks:
-     servicenet:
-       external: true
    ```
 
