@@ -32,5 +32,3 @@
     * [stack-app-java.yml](example/java.md)
     * [stack-stat.yml](example/stat.md)
 
-
-

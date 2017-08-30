@@ -6,11 +6,11 @@
 
 #### go-mysql-elasticsearch
 
-- 待补充
+* 待补充
 
 #### logstash-input-jdbc
 
-- 待补充
+* 待补充
 
 ## ELK
 
@@ -24,7 +24,7 @@
    docker node update --label-add type=stat-es service-docker1
    ```
 
-2. 修改ES集群上所有主机的配置参数(ElasticSearch需求)
+2. 修改ES集群上所有主机的配置参数\(ElasticSearch需求\)
 
    ```shell
    sudo sysctl -w vm.max_map_count=262144
@@ -101,8 +101,8 @@
 
 > 登录kibana，为数据配置可视化图形。
 
-- [如何使用Kibana仪表盘和可视化](https://www.howtoing.com/how-to-use-kibana-dashboards-and-visualizations/)
-- [kibana可视化图形介绍](https://kibana.logstash.es/content/kibana/v5/visualize/)
+* [如何使用Kibana仪表盘和可视化](https://www.howtoing.com/how-to-use-kibana-dashboards-and-visualizations/)
+* [kibana可视化图形介绍](https://kibana.logstash.es/content/kibana/v5/visualize/)
 
 ## 数据报表
 
@@ -112,7 +112,7 @@
 
 1. 设置kibana服务器允许iframe请求
 
-   - 添加HTTP响应头 `X-Frame-Options ALLOWALL`
+   * 添加HTTP响应头 `X-Frame-Options ALLOWALL`
 
 2. 在前端展示页面中嵌入iframe
 
@@ -124,7 +124,7 @@
 
 > 定时调用**phantomjs**对相应报表进行截图保存，再进行后续处理（发送邮件、备份等）。
 
-- 截图
+* 截图
 
   ```shell
   #示例
@@ -132,7 +132,9 @@
   http://www.baidu.com /tmp/screen_shot.png
   ```
 
-- 将截图文件备份&发送邮件
+* 将截图文件备份&发送邮件
 
-- 通过**任务调度服务**绑定此任务
+* 通过**任务调度服务**绑定此任务
+
+
 
