@@ -25,8 +25,10 @@
   * [azure云](example/azure.md)
   * [aliyun云](example/aliyun.md)
   * [compose](example/compose.md)
-    * [stack-log.yml](example/log.md)
+    * [stack-elk.yml](example/elk.md)
     * [stack-auth.yml](example/auth.md)
     * [stack-service.yml](example/service.md)
+    * [stack-app-php.yml](example/php.md)
+    * [stack-app-java.yml](example/java.md)
 
 

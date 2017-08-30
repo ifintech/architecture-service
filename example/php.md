@@ -1,11 +1,25 @@
-# compose-stack-service.yml 
-
 ```yaml
 version: "3.2"
 
 services:
-  php:
-    image: ifintech/service
+  static: # web前端应用
+    image: {IMAGE_ADDRESS}
+    networks:
+      - servicenet
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 100M
+      update_config:
+        parallelism: 1
+        delay: 10s
+  php: # php应用
+    image: {IMAGE_ADDRESS}
     networks:
       - servicenet
     environment:
@@ -21,14 +35,14 @@ services:
           memory: 100M
       update_config:
         parallelism: 1
-        delay: 30s
+        delay: 10s
     command: ["php-fpm"]
-  nginx:
+  nginx: #nginx应用 负责给php应用提供http通信的支持
     image: ifintech/nginx-php
     networks:
       - servicenet
     environment:
-      APP_NAME: service
+      APP_NAME: {APP_NAME}
     deploy:
       replicas: 2
       resources:
@@ -40,9 +54,9 @@ services:
           memory: 50M
       update_config:
         parallelism: 1
-        delay: 30s
+        delay: 10s
 networks:
   servicenet:
     external: true
-    
 ```
+

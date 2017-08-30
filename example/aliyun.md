@@ -89,7 +89,7 @@
 
 3. 以**stack**方式启动服务
 
-   添加配置文件 **[compose-stack-log.yml](log.md)**
+   添加配置文件 **[compose-stack-elk.yml](elk.md)**
 
    启动
 
@@ -142,10 +142,59 @@ docker service create --name metricbeat \
 2. 验证
 
 #### 整体服务后台
+> 统一的服务管理中心，整合业务监控报警，任务调度，服务报告，发布部署等功能
+
+1. 以**stack**方式启动服务
+
+   添加配置文件 **[compose-stack-service.yml](service.md)**
+
+   启动
+
+   ```shell
+   docker stack deploy service -c compose-stack-service.yml
+   ```
+
+2. 验证
+
 
 #### 数据统计
 
 ## 业务构建
+
+#### PHP应用
+
+服务编排模板
+[stack-app-php.yml](php.md)
+
+**启动**
+
+```shell
+docker stack deploy {APP} -c compose-stack-{APP}.yml --with-registry-auth
+```
+
+**更新镜像**
+
+```shell
+docker service update {SERVICE_NAME} --image {IMAGE} --with-registry-auth
+```
+
+#### JAVA应用
+
+服务编排模板
+[stack-app-java.yml](java.md)
+
+
+**启动**
+
+```shell
+docker stack deploy {APP} -c compose-stack-{APP}.yml --with-registry-auth
+```
+
+**更新镜像**
+
+```shell
+docker service update {SERVICE_NAME} --image {IMAGE} --with-registry-auth
+```
 
 ## 存储服务
 
