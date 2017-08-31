@@ -19,10 +19,6 @@
 2. 流控、熔断
 3. 日志、跟踪
 
-#### 项目地址
-
-[httpgateway](https://github.com/ifintech/httpgateway)
-
 ## API设计规范
 
 > [规范地址](https://ifentech.gitbooks.io/rdbuild/content/rule/api.html)
@@ -34,3 +30,12 @@
 > x-m 加密串  
 > x-field 参与校验的字段  
 > x-rid 请求唯一标识
+
+## 选型
+
+### Orange
+
+> 一个基于OpenResty / Nginx的HTTP API Gateway，通过orange我们可以实现服务及API级别上的日志监控，认证，访问控制，流控等功能。
+
+- [部署orange](../api-gateway.md#Orange)
+- 添加代理配置  如将`http://http-gateway/app/*`的请求代理到`http://app/*`的服务上
