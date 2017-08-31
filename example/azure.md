@@ -19,7 +19,7 @@
 
 4. [安装docker](../docker/docker.md#安装Docker)
 
-5. [创建Swarm集群](../docker/swarm.md#使用)
+5. [创建Swarm集群](../docker/swarm.md#创建集群)
 
 ### 镜像仓库
 

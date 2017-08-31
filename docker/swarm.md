@@ -2,7 +2,7 @@
 
 > 初级的编排，是资源的编排，即针对容器编排；但更高层次的是服务的编排，需要对架构层次在整体上有一个完整的定义类似docker-compose
 
-## swarm
+## Swarm
 > 摘抄自官方文档 https://docs.docker.com/engine/swarm/#feature-highlights
 
 - 集群管理集成进Docker Engine
@@ -111,7 +111,7 @@ docker service update --image redis:3.2.5-alpine redis
 5. 如果在更新的任意时刻，某个任务返回FAILED，暂停更新。
 
 
-### 使用
+### 创建集群
 
 - init swarm
 
